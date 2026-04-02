@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="The Log Lady">
-    <link rel="apple-touch-icon" href="LeTatou_Efface_le_contour_sombre_autour_du_logo_au_ras_du_cercl_71dde02e-4868-45e2-bb5d-8cb89cdb2858(1).jpg?v=9">
+    <link rel="apple-touch-icon" href="logo.jpg?v=10">
 
     <title>The Log Lady</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -167,17 +167,18 @@
         
         <header class="mb-4">
             <div class="flex justify-between items-start px-1">
-                <div class="flex items-center gap-3 shrink-0">
+                <!-- Flex container ajusté pour éviter le dépassement de l'écran -->
+                <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
                     <!-- LOGO IMAGE LOG LADY -->
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(252,211,77,0.4)] shrink-0 bg-black">
-                        <img src="LeTatou_Efface_le_contour_sombre_autour_du_logo_au_ras_du_cercl_71dde02e-4868-45e2-bb5d-8cb89cdb2858(1).jpg?v=9" alt="Log Lady Logo" class="w-full h-full object-cover">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(252,211,77,0.4)] shrink-0 bg-black">
+                        <img src="logo.jpg?v=10" alt="Log Lady Logo" class="w-full h-full object-cover">
                     </div>
-                    <div class="flex flex-col justify-center">
-                        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-widest text-tp-gold drop-shadow-sm uppercase" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">THE LOG LADY</h1>
-                        <p class="text-amber-100/70 text-sm font-medium mt-0.5" id="last-date-mobile">Aucune donnée</p>
+                    <div class="flex flex-col justify-center min-w-0">
+                        <h1 class="text-[22px] sm:text-3xl font-black tracking-tight text-tp-gold drop-shadow-sm uppercase leading-none" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">THE LOG LADY</h1>
+                        <p class="text-amber-100/70 text-xs sm:text-sm font-medium mt-1 truncate" id="last-date-mobile">Aucune donnée</p>
                     </div>
                 </div>
-                <div class="shrink-0 mt-1">
+                <div class="shrink-0 mt-1 ml-2">
                     <button onclick="exportCSV()" class="bg-neutral-900/80 p-2.5 rounded-full shadow-sm text-tp-gold btn-press border border-tp-gold/20 flex items-center justify-center" title="Sauvegarder et Exporter">
                         <span style="font-size: 1rem;">💾</span>
                     </button>
@@ -272,7 +273,7 @@
             </div>
         </div>
         
-        <div class="version-indicator">The Log Lady v9.0</div>
+        <div class="version-indicator">The Log Lady v10.0</div>
     </div>
 
 
@@ -350,7 +351,7 @@
             </div>
         </div>
         
-        <div class="version-indicator">The Log Lady v9.0</div>
+        <div class="version-indicator">The Log Lady v10.0</div>
     </div>
 
 
@@ -370,7 +371,7 @@
                 </table>
             </div>
         </div>
-        <div class="version-indicator">The Log Lady v9.0</div>
+        <div class="version-indicator">The Log Lady v10.0</div>
     </div>
 
     <!-- ============================================== -->
