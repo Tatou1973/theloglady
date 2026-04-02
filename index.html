@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="The Log Lady">
-    <link rel="apple-touch-icon" href="logo.jpg?v=17">
+    <link rel="apple-touch-icon" href="logo.jpg?v=18">
 
     <title>The Log Lady</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -170,11 +170,11 @@
     <!-- ============================================== -->
     <!-- EN-TÊTE GLOBAL (Visible sur tous les onglets)  -->
     <!-- ============================================== -->
-    <header class="pt-3 pb-1 px-3">
+    <header class="pt-3 pb-4 px-3"> <!-- Espace augmenté sous l'en-tête (pb-4) -->
         <div class="flex justify-between items-start">
             <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(252,211,77,0.3)] shrink-0 bg-tp-c1">
-                    <img src="logo.jpg?v=17" alt="Log Lady Logo" class="w-full h-full object-cover">
+                    <img src="logo.jpg?v=18" alt="Log Lady Logo" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col justify-center min-w-0">
                     <h1 class="text-[20px] sm:text-2xl font-black tracking-tight text-tp-gold drop-shadow-sm uppercase leading-none" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">THE LOG LADY</h1>
@@ -196,23 +196,23 @@
     <div id="tab-dashboard" class="tab-content active">
 
         <!-- CITATION ALÉATOIRE -->
-        <!-- Couleur d'un feu orangé sombre -->
-        <div class="w-full flex justify-center items-center mt-1 mb-2 px-1">
-            <span id="random-quote" class="font-script text-[#e85d04] text-xl sm:text-2xl transform -rotate-1 text-center leading-tight" style="text-shadow: 0 0 8px rgba(232, 93, 4, 0.6), 1px 1px 2px rgba(0,0,0,0.9);">
+        <!-- Couleur Or du titre avec transparence 60% -->
+        <div class="w-full flex justify-center items-center mt-0 mb-3 px-2">
+            <span id="random-quote" class="font-script text-tp-gold/60 text-lg sm:text-xl transform -rotate-1 text-center leading-tight" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
                 <!-- Géré par JS -->
             </span>
         </div>
 
-        <!-- FAKE LOGS DIANE (Strictement limité à 2 lignes via JS + CSS) -->
-        <div id="diane-logs" class="font-mono text-[10px] text-tp-c9 mb-2 px-2 h-7 leading-tight flex flex-col justify-end overflow-hidden" style="text-shadow: 0 0 4px rgba(189, 120, 106, 0.3);">
+        <!-- FAKE LOGS DIANE (1 seule ligne affichée, tronquée si trop longue) -->
+        <div id="diane-logs" class="font-mono text-[10px] text-tp-c9/70 mb-3 px-4 h-4 leading-tight text-center truncate" style="text-shadow: 0 0 2px rgba(189, 120, 106, 0.2);">
             <!-- Injecté par JS -->
         </div>
 
         <!-- Saisie Rapide (Compteur) -->
         <div class="ios-card p-3 sm:p-4 border-tp-c5/50 shadow-[0_0_20px_rgba(115,38,18,0.2)] mt-0 mb-3">
-            <!-- Titre en couleur Or -->
-            <h2 class="text-lg font-bold text-tp-gold uppercase tracking-widest mb-3 flex items-center gap-2 border-b border-tp-c4 pb-2 drop-shadow-sm">
-                <span class="text-xl">🔥</span> FOYER
+            <!-- Titre en couleur Or, taille et interlettrage ajustés -->
+            <h2 class="text-base font-bold text-tp-gold uppercase tracking-wide mb-3 flex items-center gap-2 border-b border-tp-c4 pb-2 drop-shadow-sm">
+                <span class="text-lg">🔥</span> FOYER
             </h2>
             <div class="flex flex-col gap-3">
                 <!-- Seules les données modifiables sont blanches -->
@@ -234,13 +234,14 @@
                     <button onclick="setCounter(6)" class="flex-1 py-1.5 bg-tp-c2 text-tp-c10 border border-tp-c4 text-sm font-bold rounded-lg btn-press hover:bg-tp-c3 transition-colors">Gros (6)</button>
                 </div>
 
-                <button onclick="addNewEntry()" class="w-full bg-gradient-to-r from-tp-c6 to-tp-c7 text-white p-3 rounded-xl font-black text-lg btn-press shadow-[0_0_20px_rgba(171,20,24,0.4)] mt-0 border border-tp-c7 tracking-wide flex justify-center items-center gap-2">
+                <!-- Bouton réduit en taille (text-sm, py-2.5) -->
+                <button onclick="addNewEntry()" class="w-full bg-gradient-to-r from-tp-c6 to-tp-c7 text-white py-2.5 px-4 rounded-xl font-bold text-sm btn-press shadow-[0_0_15px_rgba(171,20,24,0.3)] mt-0 border border-tp-c7 tracking-wide flex justify-center items-center gap-2">
                     🔥 AJOUTER AU FOYER
                 </button>
             </div>
         </div>
 
-        <!-- KPI Grid (Uniformité des couleurs) -->
+        <!-- KPI Grid (Uniformité des couleurs c8) -->
         <div class="grid grid-cols-2 gap-3 mb-3 w-full">
             <div class="ios-card p-4 mb-0">
                 <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">30 Jours</span>
@@ -257,7 +258,6 @@
         </div>
 
         <!-- Autonomie Card -->
-        <!-- Les modules conservent leur léger dégradé pour le relief -->
         <div class="ios-card p-4 sm:p-5 bg-gradient-to-br from-tp-c3 to-tp-c1 text-white relative overflow-hidden border border-tp-c5 shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
             <div class="flex justify-between items-start relative z-10">
                 <div>
@@ -301,9 +301,9 @@
     <!-- ============================================== -->
     <div id="tab-analytics" class="tab-content">
         
-        <!-- Titre en couleur Or -->
-        <h2 class="text-lg font-bold mb-4 px-1 text-tp-gold uppercase tracking-widest border-b border-tp-c4 pb-2 drop-shadow-sm flex items-center gap-2">
-            <span class="text-xl">👁️</span> VISIONS
+        <!-- Titre en couleur Or, taille ajustée -->
+        <h2 class="text-base font-bold mb-4 px-1 text-tp-gold uppercase tracking-wide border-b border-tp-c4 pb-2 drop-shadow-sm flex items-center gap-2">
+            <span class="text-lg">👁️</span> VISIONS
         </h2>
 
         <!-- Bilan Annuel -->
@@ -391,9 +391,9 @@
     <!-- ============================================== -->
     <div id="tab-history" class="tab-content">
         
-        <!-- Titre en couleur Or -->
-        <h2 class="text-lg font-bold mb-4 px-1 text-tp-gold uppercase tracking-widest border-b border-tp-c4 pb-2 drop-shadow-sm flex items-center gap-2">
-            <span class="text-xl">📜</span> JOURNAL
+        <!-- Titre en couleur Or, taille ajustée -->
+        <h2 class="text-base font-bold mb-4 px-1 text-tp-gold uppercase tracking-wide border-b border-tp-c4 pb-2 drop-shadow-sm flex items-center gap-2">
+            <span class="text-lg">📜</span> JOURNAL
         </h2>
         
         <div class="ios-card overflow-hidden">
@@ -410,7 +410,7 @@
     </div>
 
     <!-- VERSION INDICATOR (Global at bottom) -->
-    <div class="version-indicator mb-6">The Log Lady v17.0</div>
+    <div class="version-indicator mb-6">The Log Lady v18.0</div>
 
     <!-- ============================================== -->
     <!-- Navigation Basse                               -->
@@ -562,7 +562,7 @@
             prompt: (title, message, def = '') => CustomModal.show(`✏️ ${title}`, message, 'prompt', def)
         };
 
-        // --- Fake Logs Terminal Diane (Strict 2 lignes) ---
+        // --- Fake Logs Terminal Diane (1 seule ligne) ---
         function playDianeLogs() {
             const logEl = document.getElementById('diane-logs');
             if (!logEl) return;
@@ -575,20 +575,19 @@
                 "> USER 'DIANE' LOGGED IN. AWAITING DICTATION."
             ];
             
-            let currentLines = [];
+            let currentLine = "";
             let delay = 0;
             
             messages.forEach((msg) => {
                 delay += 800 + Math.random() * 600; 
                 setTimeout(() => {
-                    currentLines.push(msg);
-                    if (currentLines.length > 2) currentLines.shift(); // Force 2 lignes max
-                    logEl.innerHTML = currentLines.join("<br>") + "<span class='animate-pulse'>_</span>";
+                    currentLine = msg;
+                    logEl.innerHTML = currentLine + "<span class='animate-pulse'>_</span>";
                 }, delay);
             });
             
             setTimeout(() => {
-                logEl.innerHTML = currentLines.join("<br>");
+                logEl.innerHTML = currentLine;
             }, delay + 2000);
         }
 
@@ -1022,7 +1021,7 @@
 
             const ytdCurrent = curCum[curCum.length - 1] || 0;
             const ytdAverage = avgCum[cm] || 0;
-            document.getElementById('pace-ytd-summary').innerHTML = `Depuis janvier : <span class="text-tp-c8 font-black text-sm">${ytdCurrent} bûches</span> <span class="text-[10px] text-tp-c10/70 font-bold uppercase ml-1 tracking-wide">(Moyenne: ${ytdAverage})</span>`;
+            document.getElementById('pace-ytd-summary').innerHTML = `Depuis janvier : <span class="text-tp-c7 font-black text-sm">${ytdCurrent} bûches</span> <span class="text-[10px] text-tp-c10/70 font-bold uppercase ml-1 tracking-wide">(Moyenne: ${ytdAverage})</span>`;
 
             const datasets = [
                 { label:`En cours (${cy})`, data:curCum, borderColor:'#ab1418', fill:true, backgroundColor:'rgba(171,20,24,0.15)', tension:0.3, borderWidth:3 }, 
