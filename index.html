@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="The Log Lady">
-    <link rel="apple-touch-icon" href="logo2.jpg?v=27">
+    <link rel="apple-touch-icon" href="logo2.jpg?v=28">
 
     <title>The Log Lady</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -172,7 +172,7 @@
         <div class="flex justify-between items-start">
             <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(232,176,66,0.2)] shrink-0 bg-tp-c1">
-                    <img src="logo2.jpg?v=27" alt="Log Lady Logo" class="w-full h-full object-cover">
+                    <img src="logo2.jpg?v=28" alt="Log Lady Logo" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col justify-center min-w-0">
                     <h1 class="text-[20px] sm:text-2xl font-black tracking-tight text-tp-gold drop-shadow-sm uppercase leading-none" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">THE LOG LADY</h1>
@@ -187,28 +187,23 @@
         </div>
     </header>
 
-    <!-- Espace global avant le contenu -->
-    <div class="h-3 sm:h-5"></div>
 
     <!-- ============================================== -->
     <!-- Onglet 1 : FOYER (Saisie)                      -->
     <!-- ============================================== -->
     <div id="tab-dashboard" class="tab-content active">
 
-        <!-- ESPACEUR D'ALIGNEMENT HAUT (Maintient la position des modules) -->
-        <div class="h-[60px] flex flex-col justify-center relative mb-3">
-            <!-- CITATION ALÉATOIRE -->
-            <div class="w-full flex justify-center items-center px-2 z-10">
-                <span id="random-quote" class="font-script text-tp-gold/60 text-base sm:text-lg transform -rotate-1 text-center leading-tight" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">
-                    <!-- Géré par JS -->
-                </span>
-            </div>
+        <!-- CITATION ALÉATOIRE -->
+        <div class="w-full flex justify-center items-center mt-1 mb-8 px-2">
+            <span id="random-quote" class="font-script text-tp-gold/60 text-base sm:text-lg transform -rotate-1 text-center leading-tight" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">
+                <!-- Géré par JS -->
+            </span>
+        </div>
 
-            <!-- FAKE LOGS DIANE -->
-            <div class="absolute bottom-0 left-1 w-full text-left z-0">
-                <div id="diane-logs" class="font-mono text-[7px] text-tp-c9/50 uppercase tracking-widest leading-tight h-[18px] overflow-hidden" style="text-shadow: 0 0 2px rgba(189, 120, 106, 0.2);">
-                    <!-- Injecté par JS -->
-                </div>
+        <!-- FAKE LOGS DIANE -->
+        <div class="w-full text-left pl-1 mb-1">
+            <div id="diane-logs" class="font-mono text-[7px] text-tp-c9/50 uppercase tracking-widest leading-none truncate h-[10px]" style="text-shadow: 0 0 2px rgba(189, 120, 106, 0.2);">
+                <!-- Injecté par JS -->
             </div>
         </div>
 
@@ -284,7 +279,7 @@
             <!-- Zone de Calibrage -->
             <div class="relative z-10 mt-3 pt-3 border-t border-tp-c4 flex justify-between items-center gap-2">
                 <div class="text-[10px] sm:text-xs text-tp-c10 leading-snug flex-1">
-                    Stock de bois épuisé ? <br>Ajuster le rendement.
+                    Stock épuisé ? <br>Recalculer le rendement.
                 </div>
                 <button onclick="calibrateStock()" class="text-[11px] font-black text-white bg-tp-c8 px-3 py-1.5 rounded-lg btn-press whitespace-nowrap shadow-[0_0_15px_rgba(181,88,63,0.4)] hover:bg-tp-c7">
                     🪫 Calibrer
@@ -299,11 +294,10 @@
     <!-- ============================================== -->
     <div id="tab-analytics" class="tab-content">
         
-        <!-- ESPACEUR D'ALIGNEMENT HAUT (Pour correspondre au Foyer) -->
-        <div class="h-[60px] w-full mb-3"></div>
+        <!-- ESPACEUR D'ALIGNEMENT HAUT -->
+        <div class="h-[72px] w-full"></div>
 
-        <!-- Bilan Annuel -->
-        <div class="ios-card p-3 sm:p-4 border-tp-c5/50 shadow-[0_0_20px_rgba(115,38,18,0.2)] mt-0 mb-3">
+        <div class="ios-card p-4">
             <h2 class="text-sm font-bold text-tp-gold uppercase tracking-wide mb-3 flex items-center gap-2 border-b border-tp-c4 pb-1.5 drop-shadow-sm">
                 <span class="text-base">👁️</span> VISIONS
             </h2>
@@ -390,7 +384,7 @@
     <div id="tab-history" class="tab-content">
         
         <!-- ESPACEUR D'ALIGNEMENT HAUT (Pour correspondre au Foyer) -->
-        <div class="h-[60px] w-full mb-3"></div>
+        <div class="h-[72px] w-full"></div>
         
         <div class="ios-card overflow-hidden">
             <div class="p-3 sm:p-4 border-b border-tp-c4 shadow-[0_0_20px_rgba(115,38,18,0.2)]">
@@ -411,7 +405,7 @@
     </div>
 
     <!-- VERSION INDICATOR -->
-    <div class="version-indicator mb-6">The Log Lady v27.0</div>
+    <div class="version-indicator mb-6">The Log Lady v28.0</div>
 
     <!-- ============================================== -->
     <!-- Navigation Basse                               -->
@@ -568,7 +562,7 @@
             prompt: (title, message, def = '') => CustomModal.show(`✏️ ${title}`, message, 'prompt', def)
         };
 
-        // --- Fake Logs Terminal Diane (Strict 2 lignes max) ---
+        // --- Fake Logs Terminal Diane (Strict 1 ligne maximum) ---
         function playDianeLogs() {
             const logEl = document.getElementById('diane-logs');
             if (!logEl) return;
@@ -588,7 +582,7 @@
                 delay += 800 + Math.random() * 600; 
                 setTimeout(() => {
                     currentLines.push(msg);
-                    if (currentLines.length > 2) currentLines.shift(); 
+                    if (currentLines.length > 1) currentLines.shift(); // 1 ligne strictement
                     logEl.innerHTML = currentLines.join("<br>") + "<span class='animate-pulse'>_</span>";
                 }, delay);
             });
