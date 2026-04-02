@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="The Log Lady">
-    <link rel="apple-touch-icon" href="logo2.jpg?v=21">
+    <link rel="apple-touch-icon" href="logo2.jpg?v=27">
 
     <title>The Log Lady</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -156,7 +156,7 @@
     <div id="custom-modal" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/90 backdrop-blur-sm px-4 transition-opacity duration-200">
         <div class="bg-tp-c2 border-2 border-tp-c5 rounded-2xl p-6 w-full max-w-sm shadow-[0_0_40px_rgba(115,38,18,0.3)] transform scale-95 opacity-0" id="custom-modal-box">
             <h3 id="custom-modal-title" class="text-lg font-black text-tp-gold mb-2 flex items-center gap-2">Titre</h3>
-            <p id="custom-modal-message" class="text-sm text-tp-c9 mb-5 leading-relaxed">Message</p>
+            <p id="custom-modal-message" class="text-sm text-tp-c9 mb-5 leading-relaxed whitespace-pre-line">Message</p>
             <input type="text" id="custom-modal-input" class="hidden w-full bg-tp-c1 border border-tp-c4 rounded-xl p-3 text-white mb-5 outline-none focus:border-tp-c8 transition-colors font-bold text-center text-lg" autocomplete="off">
             <div class="flex justify-end gap-3 mt-2">
                 <button id="custom-modal-cancel" class="hidden px-5 py-2.5 text-sm font-bold text-tp-c9 bg-tp-c1 hover:bg-tp-c3 rounded-xl btn-press transition-colors border border-tp-c4">Annuler</button>
@@ -172,7 +172,7 @@
         <div class="flex justify-between items-start">
             <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(232,176,66,0.2)] shrink-0 bg-tp-c1">
-                    <img src="logo2.jpg?v=21" alt="Log Lady Logo" class="w-full h-full object-cover">
+                    <img src="logo2.jpg?v=27" alt="Log Lady Logo" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col justify-center min-w-0">
                     <h1 class="text-[20px] sm:text-2xl font-black tracking-tight text-tp-gold drop-shadow-sm uppercase leading-none" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">THE LOG LADY</h1>
@@ -185,26 +185,31 @@
                 </button>
             </div>
         </div>
-
-        <!-- CITATION ALÉATOIRE -->
-        <div class="w-full flex justify-center items-center mt-2 px-2">
-            <span id="random-quote" class="font-script text-[#f59e0b] text-base sm:text-lg transform -rotate-1 text-center leading-tight" style="text-shadow: 0 0 6px rgba(245, 158, 11, 0.5), 1px 1px 2px rgba(0,0,0,0.9);">
-                <!-- Géré par JS -->
-            </span>
-        </div>
     </header>
 
-    <!-- Air sous l'en-tête pour dégager le logo/titre/citation -->
-    <div class="h-2 sm:h-4"></div>
+    <!-- Espace global avant le contenu -->
+    <div class="h-3 sm:h-5"></div>
 
     <!-- ============================================== -->
     <!-- Onglet 1 : FOYER (Saisie)                      -->
     <!-- ============================================== -->
     <div id="tab-dashboard" class="tab-content active">
 
-        <!-- FAKE LOGS DIANE (Aligné strictement sur le bord gauche du module Foyer) -->
-        <div id="diane-logs" class="font-mono text-[8px] text-tp-c9/60 mb-1 h-5 leading-tight text-left overflow-hidden" style="text-shadow: 0 0 2px rgba(189, 120, 106, 0.2);">
-            <!-- Injecté par JS -->
+        <!-- ESPACEUR D'ALIGNEMENT HAUT (Maintient la position des modules) -->
+        <div class="h-[60px] flex flex-col justify-center relative mb-3">
+            <!-- CITATION ALÉATOIRE -->
+            <div class="w-full flex justify-center items-center px-2 z-10">
+                <span id="random-quote" class="font-script text-tp-gold/60 text-base sm:text-lg transform -rotate-1 text-center leading-tight" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">
+                    <!-- Géré par JS -->
+                </span>
+            </div>
+
+            <!-- FAKE LOGS DIANE -->
+            <div class="absolute bottom-0 left-1 w-full text-left z-0">
+                <div id="diane-logs" class="font-mono text-[7px] text-tp-c9/50 uppercase tracking-widest leading-tight h-[18px] overflow-hidden" style="text-shadow: 0 0 2px rgba(189, 120, 106, 0.2);">
+                    <!-- Injecté par JS -->
+                </div>
+            </div>
         </div>
 
         <!-- Saisie Rapide (Compteur) -->
@@ -213,14 +218,12 @@
                 <span class="text-base">🔥</span> FOYER
             </h2>
             <div class="flex flex-col gap-3">
-                <!-- Data modifiable : Blanc -->
                 <input type="datetime-local" id="add-date" class="w-full bg-tp-c1 p-2 rounded-xl font-bold text-sm border border-tp-c4 text-white outline-none focus:border-tp-c8 transition-colors text-center" style="color-scheme: dark;">
                 
                 <div class="flex items-center justify-between bg-tp-c1 rounded-xl p-2 border border-tp-c4">
                     <button onclick="adjustCounter(-1)" class="w-10 h-10 bg-tp-c2 rounded-xl shadow-sm text-2xl font-black text-tp-c8 btn-press flex items-center justify-center border border-tp-c4 hover:bg-tp-c3 transition-colors">-</button>
                     <div class="flex items-baseline justify-center gap-1.5">
-                        <!-- Data modifiable : Blanc -->
-                        <input type="number" id="add-buches" value="1" min="1" class="w-12 bg-transparent text-center font-black text-3xl text-white m-0 p-0 outline-none">
+                        <input type="number" id="add-buches" value="1" class="w-16 bg-transparent text-center font-black text-3xl text-white m-0 p-0 outline-none">
                         <span class="text-sm text-tp-c9 font-bold uppercase tracking-wide">bûches</span>
                     </div>
                     <button onclick="adjustCounter(1)" class="w-10 h-10 bg-tp-c2 rounded-xl shadow-sm text-2xl font-black text-tp-c8 btn-press flex items-center justify-center border border-tp-c4 hover:bg-tp-c3 transition-colors">+</button>
@@ -232,7 +235,7 @@
                     <button onclick="setCounter(6)" class="flex-1 py-1.5 bg-tp-c2 text-tp-c10 border border-tp-c4 text-sm font-bold rounded-lg btn-press hover:bg-tp-c3 transition-colors">Gros (6)</button>
                 </div>
 
-                <button onclick="addNewEntry()" class="w-full bg-gradient-to-r from-tp-c6 to-tp-c7 text-white py-2.5 px-4 rounded-xl font-bold text-sm btn-press shadow-[0_0_15px_rgba(171,20,24,0.3)] mt-0 border border-tp-c7 tracking-wide flex justify-center items-center gap-2">
+                <button onclick="addNewEntry()" class="w-full bg-gradient-to-r from-tp-c6 to-tp-c7 text-white py-2 px-3 rounded-lg font-bold text-xs btn-press shadow-[0_0_15px_rgba(171,20,24,0.3)] mt-0 border border-tp-c7 tracking-wide flex justify-center items-center gap-2">
                     🔥 AJOUTER AU FOYER
                 </button>
             </div>
@@ -243,15 +246,13 @@
             <div class="ios-card p-4 mb-0 flex flex-col justify-center">
                 <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">30 Jours</span>
                 <div class="text-2xl font-black mt-1 flex items-baseline gap-1">
-                    <!-- Non modifiable : tp-c8 -->
-                    <span id="kpi-30d" class="text-tp-c8">0</span><small class="text-xs font-bold text-tp-c10/70">bûches</small>
+                    <span id="kpi-30d" class="text-tp-c8">0</span><small class="text-xs font-bold text-tp-c8">bûches</small>
                 </div>
             </div>
             <div class="ios-card p-4 mb-0 flex flex-col justify-center">
                 <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Moyenne</span>
                 <div class="text-2xl font-black mt-1 flex items-baseline gap-1">
-                    <!-- Non modifiable : tp-c8 -->
-                    <span id="kpi-avg" class="text-tp-c8">0.0</span><small class="text-xs font-bold opacity-70 text-tp-c10/70">/ j</small>
+                    <span id="kpi-avg" class="text-tp-c8">0.0</span><small class="text-xs font-bold text-tp-c8">/ j</small>
                 </div>
             </div>
         </div>
@@ -260,20 +261,17 @@
         <div class="ios-card p-4 sm:p-5 bg-gradient-to-br from-tp-c3 to-tp-c1 relative overflow-hidden border border-tp-c5 shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
             <div class="flex justify-between items-start relative z-10">
                 <div>
-                    <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Le message de la Bûche</span>
-                    <!-- Non modifiable : tp-c8 -->
+                    <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">L'estimation de la bûche</span>
                     <div class="text-4xl font-black mt-2 text-tp-c8 drop-shadow-md" id="kpi-autonomie">0</div>
-                    <p id="kpi-autonomie-texte" class="text-tp-c10/80 text-xs font-medium mt-1">Jours restants</p>
+                    <p id="kpi-autonomie-texte" class="text-tp-c8 text-xs font-bold mt-1">Jours restants</p>
                 </div>
                 <div class="text-right flex flex-col items-end shrink-0">
                     <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Stock Estimé</span>
                     <div class="mt-1 bg-tp-c1/80 px-2.5 py-1.5 rounded-xl border border-tp-c4 flex flex-col items-end cursor-pointer active:scale-95 transition-transform shadow-inner" onclick="adjustStockManually()" title="Modifier le stock manuellement">
                         <div class="flex items-baseline gap-1">
-                            <!-- Modifiable : Blanc -->
                             <span id="stock-buches-display" class="text-white font-black text-xl underline decoration-dashed decoration-tp-c5 underline-offset-4">0</span>
                             <span class="text-[10px] text-tp-c10/80 ml-1">✏️</span>
                         </div>
-                        <!-- Non modifiable : tp-c10 -->
                         <div class="text-[9px] text-tp-c9 mt-1 font-medium">Ratio: <span id="ratio-display" class="text-tp-c10">150</span> b./stère</div>
                     </div>
                     
@@ -301,12 +299,14 @@
     <!-- ============================================== -->
     <div id="tab-analytics" class="tab-content">
         
-        <h2 class="text-sm font-bold mb-4 px-1 text-tp-gold uppercase tracking-wide border-b border-tp-c4 pb-1.5 drop-shadow-sm flex items-center gap-2">
-            <span class="text-base">👁️</span> VISIONS
-        </h2>
+        <!-- ESPACEUR D'ALIGNEMENT HAUT (Pour correspondre au Foyer) -->
+        <div class="h-[60px] w-full mb-3"></div>
 
         <!-- Bilan Annuel -->
-        <div class="ios-card p-4">
+        <div class="ios-card p-3 sm:p-4 border-tp-c5/50 shadow-[0_0_20px_rgba(115,38,18,0.2)] mt-0 mb-3">
+            <h2 class="text-sm font-bold text-tp-gold uppercase tracking-wide mb-3 flex items-center gap-2 border-b border-tp-c4 pb-1.5 drop-shadow-sm">
+                <span class="text-base">👁️</span> VISIONS
+            </h2>
             <h3 class="text-[11px] font-bold text-tp-c9 uppercase tracking-widest mb-3">Consommation par Année</h3>
             <div id="year-grid-mobile" class="grid grid-cols-2 sm:grid-cols-3 gap-2"></div>
         </div>
@@ -317,7 +317,6 @@
             <div class="grid grid-cols-2 gap-2">
                 <div class="bg-tp-c1/60 p-3 rounded-xl border border-tp-c4">
                     <span class="text-[9px] text-tp-c10/70 uppercase font-bold block mb-1">🔥 Plus gourmande</span>
-                    <!-- Non modifiable : c10 -->
                     <div id="ext-max-year" class="text-xl font-black text-tp-c10">----</div>
                     <div id="ext-max-year-val" class="text-xs font-bold text-tp-c8 mt-1">0 bûches</div>
                 </div>
@@ -390,14 +389,18 @@
     <!-- ============================================== -->
     <div id="tab-history" class="tab-content">
         
-        <h2 class="text-sm font-bold mb-4 px-1 text-tp-gold uppercase tracking-wide border-b border-tp-c4 pb-1.5 drop-shadow-sm flex items-center gap-2">
-            <span class="text-base">📜</span> JOURNAL
-        </h2>
+        <!-- ESPACEUR D'ALIGNEMENT HAUT (Pour correspondre au Foyer) -->
+        <div class="h-[60px] w-full mb-3"></div>
         
         <div class="ios-card overflow-hidden">
-            <div class="p-4 bg-tp-c1/60 border-b border-tp-c4 flex justify-between items-center">
-                <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Historique des flambées</span>
-                <span id="entry-count" class="bg-tp-c2 text-tp-c10 border border-tp-c4 px-2.5 py-0.5 rounded-full font-bold text-xs">0</span>
+            <div class="p-3 sm:p-4 border-b border-tp-c4 shadow-[0_0_20px_rgba(115,38,18,0.2)]">
+                <h2 class="text-sm font-bold text-tp-gold uppercase tracking-wide mb-3 flex items-center gap-2 drop-shadow-sm">
+                    <span class="text-base">📜</span> JOURNAL
+                </h2>
+                <div class="flex justify-between items-center border-t border-tp-c4 pt-2">
+                    <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Historique des flambées</span>
+                    <span id="entry-count" class="bg-tp-c2 text-tp-c10 border border-tp-c4 px-2.5 py-0.5 rounded-full font-bold text-xs">0</span>
+                </div>
             </div>
             <div class="max-h-[65vh] overflow-y-auto custom-scrollbar">
                 <table class="w-full text-left text-sm">
@@ -407,8 +410,8 @@
         </div>
     </div>
 
-    <!-- VERSION INDICATOR (Global at bottom) -->
-    <div class="version-indicator mb-6">The Log Lady v21.0</div>
+    <!-- VERSION INDICATOR -->
+    <div class="version-indicator mb-6">The Log Lady v27.0</div>
 
     <!-- ============================================== -->
     <!-- Navigation Basse                               -->
@@ -464,13 +467,23 @@
             data: [], 
             stockLogs: 0, 
             logsPerStere: 150, 
-            lastDeliveryTs: null,
-            lastDeliverySteres: null,
-            consumedSinceLastDelivery: 0,
+            calibrationStartTotalConsumed: 0,
+            calibrationSteres: 0,
+            calibrationInitialStock: 0,
             currentTab: 'dashboard', 
             charts: { history: null, yoy: null, pace: null, mom: null },
             hiddenYears: new Set()
         };
+
+        function getLocalISOTime() {
+            const now = new Date();
+            const tzOffset = now.getTimezoneOffset() * 60000;
+            return (new Date(now.getTime() - tzOffset)).toISOString().slice(0, 16);
+        }
+
+        function getTotalConsumedLogs() {
+            return state.data.reduce((sum, d) => sum + d.logs, 0);
+        }
 
         const janLinesPlugin = {
             id: 'janLines',
@@ -555,16 +568,16 @@
             prompt: (title, message, def = '') => CustomModal.show(`✏️ ${title}`, message, 'prompt', def)
         };
 
-        // --- Fake Logs Terminal Diane (Strict 2 lignes maximum) ---
+        // --- Fake Logs Terminal Diane (Strict 2 lignes max) ---
         function playDianeLogs() {
             const logEl = document.getElementById('diane-logs');
             if (!logEl) return;
             
             const messages = [
-                "> INITIALIZING SECURE PROTOCOL... [OK]",
-                "> CONNECTING TO T.P. SHERIFF DEPT... [OK]",
-                "> BYPASSING FIREWALL... [WARNING: BLUE BOOK DETECTED]",
-                "> DECRYPTING AUDIO LOGS... [OK]",
+                "> INITIALIZING SECURE PROTOCOL...",
+                "> CONNECTING TO T.P. SHERIFF DEPT...",
+                "> BYPASSING FIREWALL... [WARNING: BLUE BOOK]",
+                "> DECRYPTING AUDIO LOGS...",
                 "> USER 'DIANE' LOGGED IN."
             ];
             
@@ -575,7 +588,7 @@
                 delay += 800 + Math.random() * 600; 
                 setTimeout(() => {
                     currentLines.push(msg);
-                    if (currentLines.length > 2) currentLines.shift(); // Maintient strictement 2 lignes max
+                    if (currentLines.length > 2) currentLines.shift(); 
                     logEl.innerHTML = currentLines.join("<br>") + "<span class='animate-pulse'>_</span>";
                 }, delay);
             });
@@ -597,10 +610,7 @@
             Chart.defaults.color = '#d09e8f'; 
             Chart.defaults.borderColor = 'rgba(91, 8, 8, 0.5)'; 
 
-            const now = new Date();
-            const tzOffset = now.getTimezoneOffset() * 60000;
-            const localISOTime = (new Date(now.getTime() - tzOffset)).toISOString().slice(0, 16);
-            document.getElementById('add-date').value = localISOTime;
+            document.getElementById('add-date').value = getLocalISOTime();
 
             let saved = null;
             try {
@@ -616,9 +626,19 @@
                     state.data = (p.data || []).map(d => ({ date: new Date(d.ts), ts: d.ts, logs: d.logs }));
                     state.stockLogs = p.stockLogs || 0;
                     state.logsPerStere = p.logsPerStere || 150;
-                    state.lastDeliveryTs = p.lastDeliveryTs || null;
-                    state.lastDeliverySteres = p.lastDeliverySteres || null;
-                    state.consumedSinceLastDelivery = p.consumedSinceLastDelivery || 0;
+                    
+                    state.calibrationSteres = p.calibrationSteres || 0;
+                    state.calibrationInitialStock = p.calibrationInitialStock || 0;
+
+                    if (p.calibrationStartTotalConsumed !== undefined) {
+                        state.calibrationStartTotalConsumed = p.calibrationStartTotalConsumed;
+                    } else if (p.calibrationStartTs) {
+                        state.calibrationStartTotalConsumed = state.data
+                            .filter(d => d.ts < p.calibrationStartTs)
+                            .reduce((sum, d) => sum + d.logs, 0);
+                    } else {
+                        state.calibrationStartTotalConsumed = 0;
+                    }
                 } catch (e) {}
             }
             updateUI();
@@ -629,9 +649,9 @@
                 data: state.data.map(d=>({ts:d.ts, logs:d.logs})), 
                 stockLogs: state.stockLogs,
                 logsPerStere: state.logsPerStere,
-                lastDeliveryTs: state.lastDeliveryTs,
-                lastDeliverySteres: state.lastDeliverySteres,
-                consumedSinceLastDelivery: state.consumedSinceLastDelivery
+                calibrationStartTotalConsumed: state.calibrationStartTotalConsumed,
+                calibrationSteres: state.calibrationSteres,
+                calibrationInitialStock: state.calibrationInitialStock
             };
             
             try {
@@ -653,15 +673,16 @@
         }
 
         window.adjustStockManually = async function() {
-            const message = `Estimez à vue d'œil le nombre de bûches restantes.\n\n<span class="text-[10px] text-tp-c10">(Rappel indicatif : 1 stère ≈ ${state.logsPerStere} bûches)</span>`;
+            const message = `Estimez à vue d'œil le nombre de bûches restantes.\n\n<span class="text-[10px] text-tp-c10">(Une erreur n'est pas grave, l'algorithme lissera cette approximation par la suite. Rappel : 1 stère ≈ ${state.logsPerStere} bûches)</span>`;
             const input = await CustomModal.prompt("Ajustement manuel", message, state.stockLogs);
             
             if (input !== false && input !== null && input !== "") {
                 const parsed = parseInt(input);
                 if (!isNaN(parsed) && parsed >= 0) {
                     state.stockLogs = parsed;
-                    state.lastDeliverySteres = null; 
-                    state.consumedSinceLastDelivery = 0;
+                    state.calibrationSteres = 0; 
+                    state.calibrationStartTotalConsumed = 0;
+                    state.calibrationInitialStock = 0;
                     save(); updateUI();
                 } else {
                     await CustomModal.alert("Erreur", "Valeur invalide.");
@@ -670,53 +691,58 @@
         };
 
         window.declareDelivery = async function() {
-            if (state.stockLogs > 0) {
-                const warning = "Votre stock n'est pas vide.\n\nAjouter une livraison maintenant annulera le cycle d'apprentissage de la bûche (le calcul de votre ratio exact).\n\nVoulez-vous continuer quand même ?";
-                const proceed = await CustomModal.confirm("Stock restant", warning);
-                if (!proceed) return;
-            }
-
-            const input = await CustomModal.prompt("Nouvelle Livraison", "Volume livré (en Stères ou m³) ?\nExemple : 3 ou 4.5", "");
+            const input = await CustomModal.prompt("Nouvelle Livraison", "Volume livré (en stères ou m³) ?\nExemple : 3 ou 4.5", "");
             if (input === false || input === null || input === "") return;
             
             const steres = parseFloat(input.replace(',', '.'));
             if (!isNaN(steres) && steres > 0) {
                 const logsAdded = Math.round(steres * state.logsPerStere);
                 
-                state.lastDeliveryTs = new Date().getTime();
-                state.lastDeliverySteres = steres;
-                state.consumedSinceLastDelivery = 0; 
+                if (state.calibrationSteres === 0) {
+                    state.calibrationStartTotalConsumed = getTotalConsumedLogs(); 
+                    state.calibrationInitialStock = state.stockLogs;
+                }
+                
+                state.calibrationSteres += steres; 
                 state.stockLogs += logsAdded;
                 
+                document.getElementById('add-date').value = getLocalISOTime();
+
                 save(); updateUI();
-                await CustomModal.alert("Livraison validée", `Basé sur la mémoire de la bûche (<b class="text-tp-c10">${state.logsPerStere}</b> bûches/stère), cela représente environ <b class="text-white">${logsAdded} bûches</b> ajoutées au stock.`);
+                await CustomModal.alert("Livraison validée", `Basé sur l'estimation de la bûche (<b class="text-tp-c10">${state.logsPerStere}</b> bûches/stère), cela représente environ <b class="text-white">${logsAdded} bûches</b> ajoutées au stock.`);
             } else {
                 await CustomModal.alert("Erreur", "Volume invalide.");
             }
         };
 
         window.calibrateStock = async function() {
-            if (!state.lastDeliverySteres || state.lastDeliverySteres === 0) {
-                await CustomModal.alert("Information", `Votre stock est désormais à zéro.\n\n<span class="text-tp-c10 text-[10px]">Le message de la bûche s'affinera automatiquement lorsque vous terminerez votre PROCHAINE livraison complète.</span>`);
+            if (state.calibrationSteres === 0) {
+                await CustomModal.alert("Information", `Votre stock est désormais à zéro.\n\n<span class="text-tp-c10 text-[10px]">L'estimation s'affinera automatiquement lorsque vous terminerez votre prochaine livraison complète.</span>`);
                 state.stockLogs = 0; save(); updateUI(); return;
             }
 
-            const msg = `Cela va analyser votre consommation depuis la dernière livraison (<b class="text-tp-c10">${state.lastDeliverySteres} stères</b>) pour révéler le secret de la bûche (le ratio exact).`;
-            const confirmed = await CustomModal.confirm("Déclarer le stock VIDE ?", msg);
+            const consumedLogs = getTotalConsumedLogs() - state.calibrationStartTotalConsumed;
+            const logsFromDelivery = consumedLogs - state.calibrationInitialStock;
+
+            const msg = `L'algorithme va analyser vos flambées pour révéler le rendement exact de votre bois.\n\n• Stock avant livraison : <b class="text-tp-c10">${state.calibrationInitialStock} bûches</b>\n• Volume livré : <b class="text-tp-c10">${state.calibrationSteres} stères</b>\n• Bûches brûlées au total : <b class="text-tp-c10">${consumedLogs}</b>\n\nÊtes-vous sûr que votre stock est totalement vide ?`;
+            const confirmed = await CustomModal.confirm("Stock épuisé ?", msg);
             
             if (confirmed) {
-                if (state.consumedSinceLastDelivery === 0) {
-                    await CustomModal.alert("Erreur", "La bûche est muette. Aucune consommation depuis la dernière livraison.");
+                if (logsFromDelivery <= 0) {
+                    await CustomModal.alert("Erreur", "La bûche est perplexe. Vous n'avez pas encore consommé assez de bois pour dépasser votre stock initial estimé.");
                     return;
                 }
-                const newRatio = Math.round(state.consumedSinceLastDelivery / state.lastDeliverySteres);
-                const successMsg = `Vous avez consumé <b class="text-white">${state.consumedSinceLastDelivery} bûches</b> pour <b class="text-white">${state.lastDeliverySteres} stères</b>.\n\nLe nouveau secret de la bûche est révélé : <br><span class="text-2xl font-black text-tp-c10 mt-2 block">${newRatio} bûches/stère</span>`;
+                
+                const newRatio = Math.round(logsFromDelivery / state.calibrationSteres);
+                const successMsg = `Vous avez consumé <b class="text-white">${logsFromDelivery} bûches</b> provenant de vos <b class="text-white">${state.calibrationSteres} stères</b> livrés.\n\nLe nouveau secret de la bûche est révélé : <br><span class="text-2xl font-black text-tp-c10 mt-2 block">${newRatio} bûches/stère</span>`;
                 
                 await CustomModal.alert("La bûche a parlé ! ✨", successMsg);
+                
                 state.logsPerStere = newRatio;
                 state.stockLogs = 0; 
-                state.lastDeliverySteres = null; 
-                state.consumedSinceLastDelivery = 0;
+                state.calibrationSteres = 0; 
+                state.calibrationStartTotalConsumed = 0;
+                state.calibrationInitialStock = 0;
                 save(); updateUI();
             }
         };
@@ -731,13 +757,12 @@
             state.data.push({ date: d, ts: d.getTime(), logs: buches });
             state.data.sort((a,b) => a.ts - b.ts);
             
-            state.stockLogs = Math.max(0, state.stockLogs - buches);
-            if (state.lastDeliveryTs && d.getTime() >= state.lastDeliveryTs) {
-                state.consumedSinceLastDelivery += buches;
-            }
+            // Suppression de la contrainte Math.max(0) pour autoriser le stock négatif
+            state.stockLogs -= buches;
 
             save(); updateUI();
-            document.getElementById('add-buches').value = "1"; 
+            document.getElementById('add-buches').value = "1";
+            document.getElementById('add-date').value = getLocalISOTime();
         }
 
         window.deleteEntry = async function(ts) {
@@ -746,9 +771,6 @@
                 const deletedItem = state.data.find(d => d.ts === ts);
                 if (deletedItem) {
                     state.stockLogs += deletedItem.logs;
-                    if (state.lastDeliveryTs && deletedItem.ts >= state.lastDeliveryTs) {
-                        state.consumedSinceLastDelivery = Math.max(0, state.consumedSinceLastDelivery - deletedItem.logs);
-                    }
                 }
                 state.data = state.data.filter(d => d.ts !== ts);
                 save(); updateUI();
@@ -843,11 +865,11 @@
             }
 
             const textElement = document.getElementById('kpi-autonomie-texte');
-            textElement.className = "text-xs font-medium mt-1 text-tp-c10/80";
+            textElement.className = "text-xs font-bold mt-1 text-tp-c8";
 
             if (state.stockLogs <= 0) {
                 textElement.textContent = `Stock vide`;
-                textElement.classList.replace('text-tp-c10/80', 'text-tp-c7');
+                textElement.classList.replace('text-tp-c8', 'text-tp-c7');
             } else if (autonomiePrevue <= 14) {
                 const dateExacte = dateEpuisement.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
                 textElement.textContent = `Jusqu'au ${dateExacte}`;
@@ -865,8 +887,8 @@
             [...state.data].reverse().slice(0, 100).forEach(d => {
                 tb.insertAdjacentHTML('beforeend', `
                     <tr class="border-b border-tp-c3 last:border-0 hover:bg-tp-c3/50 transition-colors">
-                        <td class="p-3 text-sm font-bold capitalize text-tp-c10">${d.date.toLocaleDateString('fr-FR', {weekday:'short', day:'2-digit', month:'short'})}<br><span class="text-tp-c9 font-medium text-[10px]">${d.date.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'})}</span></td>
-                        <td class="p-3 text-right font-black text-tp-c8 text-xl">+${d.logs}</td>
+                        <td class="p-3 text-sm font-bold capitalize text-tp-c8">${d.date.toLocaleDateString('fr-FR', {weekday:'short', day:'2-digit', month:'short'})}<br><span class="text-tp-c9 font-medium text-[10px]">${d.date.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'})}</span></td>
+                        <td class="p-3 text-right font-black text-tp-c8 text-xl">${d.logs > 0 ? '+' : ''}${d.logs}</td>
                         <td class="p-3 w-10 text-center align-middle">
                             <button onclick="deleteEntry(${d.ts})" class="text-tp-c6 hover:text-tp-c7 font-bold text-2xl active:scale-90 transition-transform">×</button>
                         </td>
@@ -1139,7 +1161,7 @@
         function exportCSV() {
             if(state.data.length === 0) { CustomModal.alert("Export", "Le journal est vide. Rien à exporter."); return; }
             
-            let csv = "Date;Buches;Stock_Logs;Ratio_Buches_Stere;LastDelivTs;LastDelivSteres;Consumed\n";
+            let csv = "Date;Buches;Stock_Logs;Ratio_Buches_Stere;CalibStartTs;CalibSteres;CalibInitStock\n";
             
             state.data.forEach((d, index) => {
                 const dt = d.date;
@@ -1147,11 +1169,11 @@
                 
                 const stockStr = (index === 0) ? state.stockLogs : "";
                 const ratioStr = (index === 0) ? state.logsPerStere : "";
-                const ldTsStr = (index === 0 && state.lastDeliveryTs) ? state.lastDeliveryTs : "";
-                const ldSteresStr = (index === 0 && state.lastDeliverySteres) ? state.lastDeliverySteres : "";
-                const consumedStr = (index === 0) ? state.consumedSinceLastDelivery : "";
+                const calStartStr = (index === 0 && state.calibrationStartTotalConsumed !== undefined) ? state.calibrationStartTotalConsumed : "";
+                const calSteresStr = (index === 0 && state.calibrationSteres) ? state.calibrationSteres : "";
+                const calInitStr = (index === 0 && state.calibrationInitialStock !== undefined) ? state.calibrationInitialStock : "";
                 
-                csv += `${dateStr};${d.logs};${stockStr};${ratioStr};${ldTsStr};${ldSteresStr};${consumedStr}\n`;
+                csv += `${dateStr};${d.logs};${stockStr};${ratioStr};${calStartStr};${calSteresStr};${calInitStr}\n`;
             });
             
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -1189,14 +1211,21 @@
                             parsed.push({ date: dobj, ts: dobj.getTime(), logs: val });
                         }
                         
-                        if (index === 1 && cols.length >= 7 && cols[2]) {
+                        if (index === 1 && cols.length >= 6) {
                             restoredSettings = {
                                 stock: parseInt(cols[2]) || 0,
                                 ratio: parseInt(cols[3]) || 150,
-                                lastTs: parseInt(cols[4]) || null,
-                                lastSteres: parseFloat(cols[5]) || null,
-                                consumed: parseInt(cols[6]) || 0
+                                calibConsumed: parseInt(cols[4]) || 0, 
+                                calibSteres: parseFloat(cols[5]) || 0,
+                                calibInitStock: parseInt(cols[6]) || 0
                             };
+                            
+                            // Retrocompatibilité : si la colonne 4 contient un timestamp énorme au lieu d'un total
+                            if (restoredSettings.calibConsumed > 1000000000000) {
+                                restoredSettings.isLegacyTs = true;
+                                restoredSettings.legacyTs = restoredSettings.calibConsumed;
+                                restoredSettings.calibConsumed = 0;
+                            }
                         }
                     }
                 });
@@ -1207,9 +1236,16 @@
                     if (restoredSettings) {
                         state.stockLogs = restoredSettings.stock;
                         state.logsPerStere = restoredSettings.ratio;
-                        state.lastDeliveryTs = restoredSettings.lastTs;
-                        state.lastDeliverySteres = restoredSettings.lastSteres;
-                        state.consumedSinceLastDelivery = restoredSettings.consumed;
+                        state.calibrationSteres = restoredSettings.calibSteres;
+                        state.calibrationInitialStock = restoredSettings.calibInitStock;
+                        
+                        if (restoredSettings.isLegacyTs) {
+                            state.calibrationStartTotalConsumed = state.data
+                                .filter(d => d.ts < restoredSettings.legacyTs)
+                                .reduce((sum, d) => sum + d.logs, 0);
+                        } else {
+                            state.calibrationStartTotalConsumed = restoredSettings.calibConsumed;
+                        }
                     }
                     
                     save(); updateUI(); 
