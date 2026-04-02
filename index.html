@@ -8,6 +8,1265 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="The Log Lady">
+    <link rel="apple-touch-icon" href="logo.jpg?v=17">
+
+    <title>The Log Lady</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+    
+    <script>
+        // Extraction exacte de la palette fournie (Sans titre.jpg)
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tp: { 
+                            c1: '#150000',  /* 1: Noir / rouge extrême */
+                            c2: '#2d0505',  /* 2: Bordeaux très sombre */
+                            c3: '#440606',  /* 3: Bordeaux */
+                            c4: '#5b0808',  /* 4: Rouge sombre */
+                            c5: '#732612',  /* 5: Marron rust / écorce */
+                            c6: '#8d0e0e',  /* 6: Crimson vif */
+                            c7: '#ab1418',  /* 7: Rouge principal */
+                            c8: '#b5583f',  /* 8: Cuivre / Feu / Terracotta */
+                            c9: '#bd786a',  /* 9: Rose poudré / brique clair */
+                            c10: '#d09e8f', /* 10: Pêche très clair */
+                            gold: '#fcd34d' /* Consolidé pour le logo/titre principal */
+                        }
+                    },
+                    fontFamily: {
+                        script: ['Caveat', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+        }
+        html, body {
+            max-width: 100vw;
+            overflow-x: hidden;
+        }
+        body { 
+            /* Fond strictement uni avec la couleur la plus sombre */
+            background-color: #150000;
+            color: #d09e8f; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            padding-top: var(--safe-area-top);
+            padding-bottom: calc(85px + var(--safe-area-bottom));
+        }
+        .ios-card {
+            background: rgba(45, 5, 5, 0.85); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(91, 8, 8, 0.5); 
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.8);
+            margin-bottom: 12px;
+            width: 100%;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(21, 0, 0, 0.95); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(91, 8, 8, 0.5); 
+            padding-bottom: var(--safe-area-bottom);
+            display: flex;
+            justify-content: space-around;
+            z-index: 100;
+        }
+        .nav-item {
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 600;
+            color: rgba(252, 211, 77, 0.4); /* Or tamisé pour inactif */
+            transition: all 0.2s;
+            width: 25%; 
+        }
+        .nav-item.active { 
+            color: #fcd34d; /* Or pur pour actif */
+            text-shadow: 0 0 8px rgba(252, 211, 77, 0.4);
+        } 
+        .nav-item span.icon { font-size: 22px; margin-bottom: 2px; }
+        
+        .tab-content { display: none; padding: 0 12px 16px 12px; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        input, select { -webkit-appearance: none; outline: none; }
+        
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .btn-press:active { transform: scale(0.96); opacity: 0.8; }
+
+        .custom-scrollbar::-webkit-scrollbar { height: 6px; width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #732612; border-radius: 10px; }
+
+        .year-toggle .filter-btn { background-color: #150000; color: #d09e8f; border-color: #5b0808; }
+        .year-toggle input:checked + .filter-btn {
+            background-color: var(--brand-color); border-color: var(--brand-color); color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .year-toggle input:checked + .filter-btn .dot { background-color: #ffffff; }
+
+        @keyframes modalPop {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .modal-animate-in { animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        .version-indicator {
+            text-align: center;
+            font-size: 10px;
+            color: #732612;
+            margin-top: 10px;
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================== -->
+    <!-- MODAL CUSTOM                                   -->
+    <!-- ============================================== -->
+    <div id="custom-modal" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-black/90 backdrop-blur-sm px-4 transition-opacity duration-200">
+        <div class="bg-tp-c2 border-2 border-tp-c5 rounded-2xl p-6 w-full max-w-sm shadow-[0_0_40px_rgba(115,38,18,0.3)] transform scale-95 opacity-0" id="custom-modal-box">
+            <h3 id="custom-modal-title" class="text-lg font-black text-tp-gold mb-2 flex items-center gap-2">Titre</h3>
+            <p id="custom-modal-message" class="text-sm text-tp-c9 mb-5 leading-relaxed">Message</p>
+            <input type="text" id="custom-modal-input" class="hidden w-full bg-tp-c1 border border-tp-c4 rounded-xl p-3 text-white mb-5 outline-none focus:border-tp-c8 transition-colors font-bold text-center text-lg" autocomplete="off">
+            <div class="flex justify-end gap-3 mt-2">
+                <button id="custom-modal-cancel" class="hidden px-5 py-2.5 text-sm font-bold text-tp-c9 bg-tp-c1 hover:bg-tp-c3 rounded-xl btn-press transition-colors border border-tp-c4">Annuler</button>
+                <button id="custom-modal-confirm" class="px-5 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-tp-c6 to-tp-c7 hover:from-tp-c7 hover:to-tp-c7 rounded-xl btn-press transition-colors border border-tp-c6 shadow-lg shadow-tp-c6/30 w-full sm:w-auto text-center flex-1 sm:flex-none">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- EN-TÊTE GLOBAL (Visible sur tous les onglets)  -->
+    <!-- ============================================== -->
+    <header class="pt-3 pb-1 px-3">
+        <div class="flex justify-between items-start">
+            <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(252,211,77,0.3)] shrink-0 bg-tp-c1">
+                    <img src="logo.jpg?v=17" alt="Log Lady Logo" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col justify-center min-w-0">
+                    <h1 class="text-[20px] sm:text-2xl font-black tracking-tight text-tp-gold drop-shadow-sm uppercase leading-none" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">THE LOG LADY</h1>
+                    <p class="text-tp-c10/70 text-[11px] sm:text-xs font-medium mt-1 truncate" id="last-date-mobile">Aucune donnée</p>
+                </div>
+            </div>
+            <div class="shrink-0 mt-0.5 ml-2">
+                <button onclick="exportCSV()" class="bg-tp-c2 p-2 rounded-full shadow-sm text-tp-c10 btn-press border border-tp-c4 flex items-center justify-center hover:bg-tp-c3 transition-colors" title="Sauvegarder et Exporter">
+                    <span style="font-size: 1rem;">💾</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- ============================================== -->
+    <!-- Onglet 1 : FOYER (Saisie)                      -->
+    <!-- ============================================== -->
+    <div id="tab-dashboard" class="tab-content active">
+
+        <!-- CITATION ALÉATOIRE -->
+        <!-- Couleur d'un feu orangé sombre -->
+        <div class="w-full flex justify-center items-center mt-1 mb-2 px-1">
+            <span id="random-quote" class="font-script text-[#e85d04] text-xl sm:text-2xl transform -rotate-1 text-center leading-tight" style="text-shadow: 0 0 8px rgba(232, 93, 4, 0.6), 1px 1px 2px rgba(0,0,0,0.9);">
+                <!-- Géré par JS -->
+            </span>
+        </div>
+
+        <!-- FAKE LOGS DIANE (Strictement limité à 2 lignes via JS + CSS) -->
+        <div id="diane-logs" class="font-mono text-[10px] text-tp-c9 mb-2 px-2 h-7 leading-tight flex flex-col justify-end overflow-hidden" style="text-shadow: 0 0 4px rgba(189, 120, 106, 0.3);">
+            <!-- Injecté par JS -->
+        </div>
+
+        <!-- Saisie Rapide (Compteur) -->
+        <div class="ios-card p-3 sm:p-4 border-tp-c5/50 shadow-[0_0_20px_rgba(115,38,18,0.2)] mt-0 mb-3">
+            <!-- Titre en couleur Or -->
+            <h2 class="text-lg font-bold text-tp-gold uppercase tracking-widest mb-3 flex items-center gap-2 border-b border-tp-c4 pb-2 drop-shadow-sm">
+                <span class="text-xl">🔥</span> FOYER
+            </h2>
+            <div class="flex flex-col gap-3">
+                <!-- Seules les données modifiables sont blanches -->
+                <input type="datetime-local" id="add-date" class="w-full bg-tp-c1 p-2.5 rounded-xl font-bold text-sm border border-tp-c4 text-white outline-none focus:border-tp-c8 transition-colors text-center" style="color-scheme: dark;">
+                
+                <div class="flex items-center justify-between bg-tp-c1 rounded-xl p-2 border border-tp-c4">
+                    <button onclick="adjustCounter(-1)" class="w-10 h-10 bg-tp-c2 rounded-xl shadow-sm text-2xl font-black text-tp-c8 btn-press flex items-center justify-center border border-tp-c4 hover:bg-tp-c3 transition-colors">-</button>
+                    <div class="flex items-baseline justify-center gap-1.5">
+                        <input type="number" id="add-buches" value="1" min="1" class="w-12 bg-transparent text-center font-black text-3xl text-white m-0 p-0 outline-none">
+                        <span class="text-sm text-tp-c9 font-bold uppercase tracking-wide">bûches</span>
+                    </div>
+                    <button onclick="adjustCounter(1)" class="w-10 h-10 bg-tp-c2 rounded-xl shadow-sm text-2xl font-black text-tp-c8 btn-press flex items-center justify-center border border-tp-c4 hover:bg-tp-c3 transition-colors">+</button>
+                </div>
+                
+                <!-- Raccourcis -->
+                <div class="flex gap-2 justify-center mt-0 mb-1">
+                    <button onclick="setCounter(2)" class="flex-1 py-1.5 bg-tp-c2 text-tp-c10 border border-tp-c4 text-sm font-bold rounded-lg btn-press hover:bg-tp-c3 transition-colors">Petit (2)</button>
+                    <button onclick="setCounter(4)" class="flex-1 py-1.5 bg-tp-c2 text-tp-c10 border border-tp-c4 text-sm font-bold rounded-lg btn-press hover:bg-tp-c3 transition-colors">Moyen (4)</button>
+                    <button onclick="setCounter(6)" class="flex-1 py-1.5 bg-tp-c2 text-tp-c10 border border-tp-c4 text-sm font-bold rounded-lg btn-press hover:bg-tp-c3 transition-colors">Gros (6)</button>
+                </div>
+
+                <button onclick="addNewEntry()" class="w-full bg-gradient-to-r from-tp-c6 to-tp-c7 text-white p-3 rounded-xl font-black text-lg btn-press shadow-[0_0_20px_rgba(171,20,24,0.4)] mt-0 border border-tp-c7 tracking-wide flex justify-center items-center gap-2">
+                    🔥 AJOUTER AU FOYER
+                </button>
+            </div>
+        </div>
+
+        <!-- KPI Grid (Uniformité des couleurs) -->
+        <div class="grid grid-cols-2 gap-3 mb-3 w-full">
+            <div class="ios-card p-4 mb-0">
+                <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">30 Jours</span>
+                <div class="text-2xl font-black mt-1 flex items-baseline gap-1 text-tp-c8">
+                    <span id="kpi-30d">0</span><small class="text-xs font-bold text-tp-c10/70">bûches</small>
+                </div>
+            </div>
+            <div class="ios-card p-4 mb-0">
+                <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Moyenne</span>
+                <div class="text-2xl font-black mt-1 text-tp-c8 flex items-baseline gap-1">
+                    <span id="kpi-avg">0.0</span><small class="text-xs font-bold opacity-70 text-tp-c10/70">/ j</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Autonomie Card -->
+        <!-- Les modules conservent leur léger dégradé pour le relief -->
+        <div class="ios-card p-4 sm:p-5 bg-gradient-to-br from-tp-c3 to-tp-c1 text-white relative overflow-hidden border border-tp-c5 shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
+            <div class="flex justify-between items-start relative z-10">
+                <div>
+                    <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Le message de la Bûche</span>
+                    <!-- Couleur c8 uniformisée avec les autres KPIs -->
+                    <div class="text-4xl font-black mt-2 text-tp-c8 drop-shadow-md" id="kpi-autonomie">0</div>
+                    <p id="kpi-autonomie-texte" class="text-tp-c10/80 text-xs font-medium mt-1">Jours restants</p>
+                </div>
+                <div class="text-right flex flex-col items-end shrink-0">
+                    <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Stock Estimé</span>
+                    <div class="mt-1 bg-tp-c1/80 px-2.5 py-1.5 rounded-xl border border-tp-c4 flex flex-col items-end cursor-pointer active:scale-95 transition-transform shadow-inner" onclick="adjustStockManually()" title="Modifier le stock manuellement">
+                        <div class="flex items-baseline gap-1">
+                            <!-- Seule la valeur du stock est blanche, car elle est modifiable -->
+                            <span id="stock-buches-display" class="text-white font-black text-xl underline decoration-dashed decoration-tp-c5 underline-offset-4">0</span>
+                            <span class="text-[10px] text-tp-c10/80 ml-1">✏️</span>
+                        </div>
+                        <div class="text-[9px] text-tp-c9 mt-1 font-medium">Ratio: <span id="ratio-display" class="text-tp-c10">150</span> b./stère</div>
+                    </div>
+                    
+                    <button onclick="declareDelivery()" class="mt-2 text-[11px] font-bold text-white bg-tp-c2 px-2.5 py-1.5 rounded-lg shadow-sm hover:bg-tp-c3 transition-colors flex items-center gap-1.5 active:scale-95 border border-tp-c4">
+                        <span>📦</span> + Livraison
+                    </button>
+                </div>
+            </div>
+
+            <!-- Zone de Calibrage -->
+            <div class="relative z-10 mt-3 pt-3 border-t border-tp-c4 flex justify-between items-center gap-2">
+                <div class="text-[10px] sm:text-xs text-tp-c10 leading-snug flex-1">
+                    Tas terminé ? <br>Calculez le ratio.
+                </div>
+                <button onclick="calibrateStock()" class="text-[11px] font-black text-white bg-tp-c8 px-3 py-1.5 rounded-lg btn-press whitespace-nowrap shadow-[0_0_15px_rgba(181,88,63,0.4)] hover:bg-tp-c7">
+                    🪫 Stock Vide
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- Onglet 2 : VISIONS (Analyses)                  -->
+    <!-- ============================================== -->
+    <div id="tab-analytics" class="tab-content">
+        
+        <!-- Titre en couleur Or -->
+        <h2 class="text-lg font-bold mb-4 px-1 text-tp-gold uppercase tracking-widest border-b border-tp-c4 pb-2 drop-shadow-sm flex items-center gap-2">
+            <span class="text-xl">👁️</span> VISIONS
+        </h2>
+
+        <!-- Bilan Annuel -->
+        <div class="ios-card p-4">
+            <h3 class="text-[11px] font-bold text-tp-c9 uppercase tracking-widest mb-3">Consommation par Année</h3>
+            <div id="year-grid-mobile" class="grid grid-cols-2 sm:grid-cols-3 gap-2"></div>
+        </div>
+
+        <!-- Extrêmes & Records -->
+        <div class="ios-card p-4">
+            <h3 class="text-[11px] font-bold text-tp-c9 uppercase tracking-widest mb-3">RECORDS</h3>
+            <div class="grid grid-cols-2 gap-2">
+                <div class="bg-tp-c1/60 p-3 rounded-xl border border-tp-c4">
+                    <span class="text-[9px] text-tp-c10/70 uppercase font-bold block mb-1">🔥 Plus gourmande</span>
+                    <!-- Non modifiable, donc c10 au lieu de blanc -->
+                    <div id="ext-max-year" class="text-xl font-black text-tp-c10">----</div>
+                    <div id="ext-max-year-val" class="text-xs font-bold text-tp-c8 mt-1">0 bûches</div>
+                </div>
+                <div class="bg-tp-c1/60 p-3 rounded-xl border border-tp-c4">
+                    <span class="text-[9px] text-tp-c10/70 uppercase font-bold block mb-1">🌱 Plus économe</span>
+                    <div id="ext-min-year" class="text-xl font-black text-tp-c10">----</div>
+                    <div id="ext-min-year-val" class="text-xs font-bold text-tp-c9 mt-1">0 bûches</div>
+                </div>
+                <div class="bg-tp-c1/60 p-3 rounded-xl border border-tp-c4 col-span-2 flex flex-row justify-between items-center gap-2">
+                    <div class="min-w-0 flex-1">
+                        <span class="text-[9px] text-tp-c10/70 uppercase font-bold block mb-1">❄️ Mois Record</span>
+                        <div id="ext-max-month" class="text-lg sm:text-xl font-black text-tp-c10 leading-tight capitalize truncate">----</div>
+                    </div>
+                    <div id="ext-max-month-val" class="text-sm font-black text-tp-c1 bg-tp-c10 px-2 py-1 rounded-lg border border-tp-c9 shrink-0 whitespace-nowrap">0 bûches</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Comparaison Mensuelle (MoM) -->
+        <div class="ios-card p-4 overflow-hidden">
+            <h3 class="text-[11px] font-bold text-tp-c9 uppercase tracking-widest mb-3">Comparaison Mensuelle</h3>
+            <div class="overflow-x-auto custom-scrollbar pb-2">
+                <div class="chart-container" style="min-width: 600px; height: 200px;">
+                    <canvas id="chart-mom-mobile"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparaison des Années (YoY Line) -->
+        <div class="ios-card p-4 overflow-hidden">
+            <h3 class="text-[11px] font-bold text-tp-c9 uppercase tracking-widest mb-3">Superposition des années</h3>
+            <div id="filter-yoy" class="flex flex-wrap gap-2 mb-3"></div>
+            <div class="overflow-x-auto custom-scrollbar pb-2">
+                <div class="chart-container" style="min-width: 600px; height: 200px;">
+                    <canvas id="chart-yoy-mobile"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trajectoire -->
+        <div class="ios-card p-4">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+                <div>
+                    <h3 class="text-[11px] font-bold text-tp-c9 uppercase tracking-widest mb-1">Trajectoire Annuelle</h3>
+                    <p class="text-xs font-bold text-tp-c10" id="pace-ytd-summary">Depuis janvier : -- bûches</p>
+                </div>
+                <select id="pace-compare-select" class="bg-tp-c1 border border-tp-c4 text-xs font-bold p-2 rounded-lg text-tp-c10 outline-none focus:border-tp-c8 transition-colors" onchange="window.updatePaceChart()">
+                    <option value="none">Comparer avec...</option>
+                </select>
+            </div>
+            <div class="chart-container" style="height: 200px;">
+                <canvas id="chart-pace-mobile"></canvas>
+            </div>
+        </div>
+
+        <!-- Évolution Historique -->
+        <div class="ios-card p-4 overflow-hidden">
+            <h3 class="text-[11px] font-bold text-tp-c9 uppercase tracking-widest mb-3">Évolution Globale</h3>
+            <div class="overflow-x-auto custom-scrollbar pb-2">
+                <div class="chart-container" style="min-width: 600px; height: 200px;">
+                    <canvas id="chart-hist-mobile"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- Onglet 3 : JOURNAL                             -->
+    <!-- ============================================== -->
+    <div id="tab-history" class="tab-content">
+        
+        <!-- Titre en couleur Or -->
+        <h2 class="text-lg font-bold mb-4 px-1 text-tp-gold uppercase tracking-widest border-b border-tp-c4 pb-2 drop-shadow-sm flex items-center gap-2">
+            <span class="text-xl">📜</span> JOURNAL
+        </h2>
+        
+        <div class="ios-card overflow-hidden">
+            <div class="p-4 bg-tp-c1/60 border-b border-tp-c4 flex justify-between items-center">
+                <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Historique des flambées</span>
+                <span id="entry-count" class="bg-tp-c2 text-tp-c10 border border-tp-c4 px-2.5 py-0.5 rounded-full font-bold text-xs">0</span>
+            </div>
+            <div class="max-h-[65vh] overflow-y-auto custom-scrollbar">
+                <table class="w-full text-left text-sm">
+                    <tbody id="tbody-mobile" class="divide-y divide-tp-c3"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- VERSION INDICATOR (Global at bottom) -->
+    <div class="version-indicator mb-6">The Log Lady v17.0</div>
+
+    <!-- ============================================== -->
+    <!-- Navigation Basse                               -->
+    <!-- ============================================== -->
+    <nav class="bottom-nav">
+        <button onclick="setTab('dashboard')" id="nav-dashboard" class="nav-item active btn-press">
+            <span class="icon">🔥</span><span>FOYER</span>
+        </button>
+        <button onclick="setTab('analytics')" id="nav-analytics" class="nav-item btn-press">
+            <span class="icon">👁️</span><span>VISIONS</span>
+        </button>
+        <button onclick="setTab('history')" id="nav-history" class="nav-item btn-press">
+            <span class="icon">📜</span><span>JOURNAL</span>
+        </button>
+        <label class="nav-item cursor-pointer btn-press">
+            <span class="icon">📥</span><span>ARCHIVES</span>
+            <input type="file" id="csv-mobile" accept=".csv" class="hidden" onchange="handleImport(this)">
+        </label>
+    </nav>
+
+    <!-- ============================================== -->
+    <!-- SCRIPT APPLICATION                             -->
+    <!-- ============================================== -->
+    <script>
+        const STORAGE_KEY = 'buches_app_v1';
+        
+        // Palette extraite de "Sans titre.jpg"
+        const COLORS = ['#d09e8f', '#ab1418', '#b5583f', '#8d0e0e', '#732612', '#5b0808', '#bd786a', '#440606', '#2d0505', '#150000'];
+        const MONTHS = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
+        const MONTHS_FULL = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+
+        // CITATIONS EXACTES
+        const CITATIONS = [
+            "You can ask it now",
+            "My log does not judge",
+            "I do not introduce the log",
+            "The answer is within the question",
+            "Shut your eyes and you'll burst into flames",
+            "What really is creamed corn?",
+            "This is a message from the Log",
+            "The dog ate so much Earth it died",
+            "One day my log will have something to say about this",
+            "Sometime ideas, like men, jump up and say ‘hello’",
+            "Some ideas arrive in the form of a dream",
+            "The fire I speak of is not a kind fire",
+            "Life, like music, has a rhythm",
+            "Have you ever seen something startling that others cannot see?",
+            "Is the cart in front of the horse?",
+            "There are clues everywhere–all around us",
+            "My log hears things I cannot hear",
+            "I carry a log – yes. Is it funny to you?"
+        ];
+
+        // State global
+        const state = { 
+            data: [], // { ts, logs }
+            stockLogs: 0, 
+            logsPerStere: 150, 
+            lastDeliveryTs: null,
+            lastDeliverySteres: null,
+            consumedSinceLastDelivery: 0,
+            currentTab: 'dashboard', 
+            charts: { history: null, yoy: null, pace: null, mom: null },
+            hiddenYears: new Set()
+        };
+
+        // Plugin Chart.js pour les lignes verticales "Jan"
+        const janLinesPlugin = {
+            id: 'janLines',
+            beforeDraw: chart => {
+                const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
+                ctx.save();
+                ctx.setLineDash([4, 4]); ctx.strokeStyle = 'rgba(91, 8, 8, 0.5)'; ctx.lineWidth = 1;
+                chart.data.labels.forEach((label, index) => {
+                    if (label && label.startsWith('Jan')) {
+                        const xPos = x.getPixelForValue(index);
+                        const yearText = label.split(' ')[1] || '';
+                        ctx.beginPath(); ctx.moveTo(xPos, top); ctx.lineTo(xPos, bottom); ctx.stroke();
+                        ctx.fillStyle = '#d09e8f'; ctx.font = 'bold 10px sans-serif';
+                        ctx.textAlign = 'center'; ctx.fillText(yearText, xPos, top + 12);
+                    }
+                });
+                ctx.restore();
+            }
+        };
+
+        // --- GESTION DES MODALS PERSONNALISÉS ---
+        const CustomModal = {
+            show: function(title, message, type = 'alert', defaultValue = '') {
+                return new Promise((resolve) => {
+                    const modal = document.getElementById('custom-modal');
+                    const box = document.getElementById('custom-modal-box');
+                    const inputEl = document.getElementById('custom-modal-input');
+                    const cancelBtn = document.getElementById('custom-modal-cancel');
+                    const confirmBtn = document.getElementById('custom-modal-confirm');
+
+                    document.getElementById('custom-modal-title').innerHTML = title;
+                    document.getElementById('custom-modal-message').innerHTML = message;
+
+                    inputEl.value = defaultValue;
+                    
+                    if (type === 'prompt') {
+                        inputEl.classList.remove('hidden');
+                        cancelBtn.classList.remove('hidden');
+                        inputEl.type = 'text';
+                        inputEl.inputMode = 'decimal';
+                    } else if (type === 'confirm') {
+                        inputEl.classList.add('hidden');
+                        cancelBtn.classList.remove('hidden');
+                    } else {
+                        inputEl.classList.add('hidden');
+                        cancelBtn.classList.add('hidden');
+                    }
+
+                    modal.classList.remove('hidden');
+                    setTimeout(() => {
+                        box.classList.add('modal-animate-in');
+                        if(type === 'prompt') inputEl.focus();
+                    }, 10);
+
+                    const close = (value) => {
+                        box.classList.remove('modal-animate-in');
+                        box.classList.add('scale-95', 'opacity-0');
+                        setTimeout(() => {
+                            modal.classList.add('hidden');
+                            box.classList.remove('scale-95', 'opacity-0'); 
+                            
+                            confirmBtn.onclick = null;
+                            cancelBtn.onclick = null;
+                            inputEl.onkeydown = null;
+                            
+                            resolve(value);
+                        }, 200);
+                    };
+
+                    confirmBtn.onclick = () => {
+                        if (type === 'prompt') close(inputEl.value);
+                        else close(true);
+                    };
+                    cancelBtn.onclick = () => close(false);
+                    
+                    if (type === 'prompt') {
+                        inputEl.onkeydown = (e) => { if (e.key === 'Enter') confirmBtn.click(); };
+                    }
+                });
+            },
+            alert: (title, message) => CustomModal.show(`🦉 ${title}`, message, 'alert'),
+            confirm: (title, message) => CustomModal.show(`⚠️ ${title}`, message, 'confirm'),
+            prompt: (title, message, def = '') => CustomModal.show(`✏️ ${title}`, message, 'prompt', def)
+        };
+
+        // --- Fake Logs Terminal Diane (Strict 2 lignes) ---
+        function playDianeLogs() {
+            const logEl = document.getElementById('diane-logs');
+            if (!logEl) return;
+            
+            const messages = [
+                "> INITIALIZING SECURE PROTOCOL... [OK]",
+                "> CONNECTING TO T.P. SHERIFF DEPT... [OK]",
+                "> BYPASSING FIREWALL... [WARNING: BLUE BOOK DETECTED]",
+                "> DECRYPTING AUDIO LOGS... [OK]",
+                "> USER 'DIANE' LOGGED IN. AWAITING DICTATION."
+            ];
+            
+            let currentLines = [];
+            let delay = 0;
+            
+            messages.forEach((msg) => {
+                delay += 800 + Math.random() * 600; 
+                setTimeout(() => {
+                    currentLines.push(msg);
+                    if (currentLines.length > 2) currentLines.shift(); // Force 2 lignes max
+                    logEl.innerHTML = currentLines.join("<br>") + "<span class='animate-pulse'>_</span>";
+                }, delay);
+            });
+            
+            setTimeout(() => {
+                logEl.innerHTML = currentLines.join("<br>");
+            }, delay + 2000);
+        }
+
+        // --- Fallback pour la mémoire bloquée ---
+        let memoryStorage = null;
+
+        function init() {
+            // Lancer les logs
+            playDianeLogs();
+
+            // Affichage d'une citation aléatoire
+            const randomQuote = CITATIONS[Math.floor(Math.random() * CITATIONS.length)];
+            const quoteEl = document.getElementById('random-quote');
+            if (quoteEl) quoteEl.textContent = randomQuote;
+
+            Chart.defaults.color = '#d09e8f'; // c10
+            Chart.defaults.borderColor = 'rgba(91, 8, 8, 0.5)'; // c4 translucide
+
+            const now = new Date();
+            const tzOffset = now.getTimezoneOffset() * 60000;
+            const localISOTime = (new Date(now.getTime() - tzOffset)).toISOString().slice(0, 16);
+            document.getElementById('add-date').value = localISOTime;
+
+            let saved = null;
+            try {
+                saved = localStorage.getItem(STORAGE_KEY);
+            } catch(e) {
+                console.warn("Aperçu sécurisé : localStorage bloqué. Utilisation de la mémoire temporaire.");
+                saved = memoryStorage ? JSON.stringify(memoryStorage) : null;
+            }
+
+            if (saved) {
+                try {
+                    const p = JSON.parse(saved);
+                    state.data = (p.data || []).map(d => ({ date: new Date(d.ts), ts: d.ts, logs: d.logs }));
+                    state.stockLogs = p.stockLogs || 0;
+                    state.logsPerStere = p.logsPerStere || 150;
+                    state.lastDeliveryTs = p.lastDeliveryTs || null;
+                    state.lastDeliverySteres = p.lastDeliverySteres || null;
+                    state.consumedSinceLastDelivery = p.consumedSinceLastDelivery || 0;
+                } catch (e) { console.error("Erreur lecture state", e); }
+            }
+            updateUI();
+        }
+
+        function save() { 
+            const payload = { 
+                data: state.data.map(d=>({ts:d.ts, logs:d.logs})), 
+                stockLogs: state.stockLogs,
+                logsPerStere: state.logsPerStere,
+                lastDeliveryTs: state.lastDeliveryTs,
+                lastDeliverySteres: state.lastDeliverySteres,
+                consumedSinceLastDelivery: state.consumedSinceLastDelivery
+            };
+            
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(payload)); 
+            } catch(e) {
+                memoryStorage = payload;
+            }
+        }
+
+        function adjustCounter(val) {
+            const el = document.getElementById('add-buches');
+            let current = parseInt(el.value) || 0;
+            current += val;
+            if (current < 1) current = 1;
+            el.value = current;
+        }
+        function setCounter(val) {
+            document.getElementById('add-buches').value = val;
+        }
+
+        window.adjustStockManually = async function() {
+            const message = `Estimez à vue d'œil le nombre de bûches restantes.\n\n<span class="text-[10px] text-tp-c10">(Rappel indicatif : 1 stère ≈ ${state.logsPerStere} bûches)</span>`;
+            
+            const input = await CustomModal.prompt("Ajustement manuel", message, state.stockLogs);
+            
+            if (input !== false && input !== null && input !== "") {
+                const parsed = parseInt(input);
+                if (!isNaN(parsed) && parsed >= 0) {
+                    state.stockLogs = parsed;
+                    state.lastDeliverySteres = null; 
+                    state.consumedSinceLastDelivery = 0;
+                    save();
+                    updateUI();
+                } else {
+                    await CustomModal.alert("Erreur", "Valeur invalide.");
+                }
+            }
+        };
+
+        window.declareDelivery = async function() {
+            if (state.stockLogs > 0) {
+                const warning = "Votre stock n'est pas vide.\n\nAjouter une livraison maintenant annulera le cycle d'apprentissage de la bûche (le calcul de votre ratio exact).\n\nVoulez-vous continuer quand même ?";
+                const proceed = await CustomModal.confirm("Stock restant", warning);
+                if (!proceed) return;
+            }
+
+            const input = await CustomModal.prompt("Nouvelle Livraison", "Volume livré (en Stères ou m³) ?\nExemple : 3 ou 4.5", "");
+            if (input === false || input === null || input === "") return;
+            
+            const steres = parseFloat(input.replace(',', '.'));
+            if (!isNaN(steres) && steres > 0) {
+                const logsAdded = Math.round(steres * state.logsPerStere);
+                
+                state.lastDeliveryTs = new Date().getTime();
+                state.lastDeliverySteres = steres;
+                state.consumedSinceLastDelivery = 0; 
+                state.stockLogs += logsAdded;
+                
+                save();
+                updateUI();
+                await CustomModal.alert("Livraison validée", `Basé sur la mémoire de la bûche (<b class="text-tp-c10">${state.logsPerStere}</b> bûches/stère), cela représente environ <b class="text-white">${logsAdded} bûches</b> ajoutées au stock.`);
+            } else {
+                await CustomModal.alert("Erreur", "Volume invalide.");
+            }
+        };
+
+        window.calibrateStock = async function() {
+            if (!state.lastDeliverySteres || state.lastDeliverySteres === 0) {
+                await CustomModal.alert("Information", `Votre stock est désormais à zéro.\n\n<span class="text-tp-c10 text-[10px]">Le message de la bûche s'affinera automatiquement lorsque vous terminerez votre PROCHAINE livraison complète.</span>`);
+                state.stockLogs = 0;
+                save();
+                updateUI();
+                return;
+            }
+
+            const msg = `Cela va analyser votre consommation depuis la dernière livraison (<b class="text-tp-c10">${state.lastDeliverySteres} stères</b>) pour révéler le secret de la bûche (le ratio exact).`;
+            const confirmed = await CustomModal.confirm("Déclarer le stock VIDE ?", msg);
+            
+            if (confirmed) {
+                if (state.consumedSinceLastDelivery === 0) {
+                    await CustomModal.alert("Erreur", "La bûche est muette. Aucune consommation depuis la dernière livraison.");
+                    return;
+                }
+
+                const newRatio = Math.round(state.consumedSinceLastDelivery / state.lastDeliverySteres);
+                
+                const successMsg = `Vous avez consumé <b class="text-white">${state.consumedSinceLastDelivery} bûches</b> pour <b class="text-white">${state.lastDeliverySteres} stères</b>.\n\nLe nouveau secret de la bûche est révélé : <br><span class="text-2xl font-black text-tp-c10 mt-2 block">${newRatio} bûches/stère</span>`;
+                
+                await CustomModal.alert("La bûche a parlé ! ✨", successMsg);
+
+                state.logsPerStere = newRatio;
+                state.stockLogs = 0; 
+                state.lastDeliverySteres = null; 
+                state.consumedSinceLastDelivery = 0;
+                
+                save();
+                updateUI();
+            }
+        };
+
+        function addNewEntry() {
+            const dStr = document.getElementById('add-date').value;
+            const buches = parseInt(document.getElementById('add-buches').value);
+            
+            if (!dStr || isNaN(buches) || buches <= 0) { CustomModal.alert("Erreur", "Saisie invalide !"); return; }
+            const d = new Date(dStr);
+            
+            state.data.push({ date: d, ts: d.getTime(), logs: buches });
+            state.data.sort((a,b) => a.ts - b.ts);
+            
+            state.stockLogs = Math.max(0, state.stockLogs - buches);
+            if (state.lastDeliveryTs && d.getTime() >= state.lastDeliveryTs) {
+                state.consumedSinceLastDelivery += buches;
+            }
+
+            save(); updateUI();
+            document.getElementById('add-buches').value = "1"; 
+        }
+
+        window.deleteEntry = async function(ts) {
+            const confirmed = await CustomModal.confirm("Effacer de la mémoire", "Voulez-vous vraiment oublier ce feu ?");
+            if (confirmed) {
+                const deletedItem = state.data.find(d => d.ts === ts);
+                
+                if (deletedItem) {
+                    state.stockLogs += deletedItem.logs;
+                    if (state.lastDeliveryTs && deletedItem.ts >= state.lastDeliveryTs) {
+                        state.consumedSinceLastDelivery = Math.max(0, state.consumedSinceLastDelivery - deletedItem.logs);
+                    }
+                }
+
+                state.data = state.data.filter(d => d.ts !== ts);
+                save(); updateUI();
+            }
+        }
+
+        function updateUI() {
+            const tb = document.getElementById('tbody-mobile');
+            
+            document.getElementById('stock-buches-display').textContent = state.stockLogs;
+            document.getElementById('ratio-display').textContent = state.logsPerStere;
+
+            if (state.data.length === 0) {
+                document.getElementById('last-date-mobile').textContent = "Aucun feu enregistré";
+                document.getElementById('kpi-30d').textContent = "0";
+                document.getElementById('kpi-avg').textContent = "0.0";
+                document.getElementById('kpi-autonomie').textContent = "0";
+                document.getElementById('entry-count').textContent = "0";
+                tb.innerHTML = '<tr><td colspan="3" class="p-8 text-center text-tp-c5"><div class="text-3xl mb-2 opacity-70">🪵</div>Le journal est vide. La bûche attend votre premier feu.</td></tr>';
+                if (state.currentTab === 'analytics') updateAnalytics();
+                return;
+            }
+
+            const last = state.data[state.data.length - 1];
+            document.getElementById('last-date-mobile').textContent = "Dernier feu : " + last.date.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+            
+            const vol30 = state.data.reduce((acc, d) => d.ts > (last.ts - 30*86400000) ? acc + d.logs : acc, 0);
+            
+            const firstEverDate = state.data[0].date;
+            const actualDaysActive = Math.ceil((last.date - firstEverDate) / 86400000);
+            const divisor = Math.min(30, Math.max(1, actualDaysActive));
+            const avg = vol30 / divisor;
+            
+            document.getElementById('kpi-30d').textContent = vol30;
+            document.getElementById('kpi-avg').textContent = avg.toFixed(1);
+            
+            // --- MOTEUR D'AUTONOMIE PRÉDICTIVE ---
+            let autonomiePrevue = 0;
+            let dateEpuisement = new Date();
+            
+            if (state.stockLogs > 0 && state.data.length > 0) {
+                const monthLogs = Array(12).fill(0);
+                const monthActiveYears = Array(12).fill(0);
+                const minYear = state.data[0].date.getFullYear();
+                const maxYear = state.data[state.data.length - 1].date.getFullYear();
+                const minMonth = state.data[0].date.getMonth();
+                const maxMonth = state.data[state.data.length - 1].date.getMonth();
+
+                for (let y = minYear; y <= maxYear; y++) {
+                    for (let m = 0; m < 12; m++) {
+                        if (y === minYear && m < minMonth) continue;
+                        if (y === maxYear && m > maxMonth) continue;
+                        monthActiveYears[m]++;
+                    }
+                }
+
+                state.data.forEach(d => { monthLogs[d.date.getMonth()] += d.logs; });
+
+                const dailyBurnRateByMonth = Array(12).fill(0);
+                for (let m = 0; m < 12; m++) {
+                    if (monthActiveYears[m] > 0) {
+                        const currentYear = new Date().getFullYear();
+                        const daysInM = new Date(currentYear, m + 1, 0).getDate();
+                        dailyBurnRateByMonth[m] = (monthLogs[m] / monthActiveYears[m]) / daysInM;
+                    }
+                    if (dailyBurnRateByMonth[m] === 0) dailyBurnRateByMonth[m] = 0.5; 
+                }
+
+                let severityRatio = 1.0;
+                const currentMonth = last.date.getMonth();
+                
+                if (dailyBurnRateByMonth[currentMonth] > 0) {
+                    if (avg > 0) {
+                        severityRatio = avg / dailyBurnRateByMonth[currentMonth];
+                    } else {
+                        severityRatio = 0.2; 
+                    }
+                    if (severityRatio < 0.2) severityRatio = 0.2;
+                    if (severityRatio > 2.0) severityRatio = 2.0;
+                }
+
+                let currentStockSim = state.stockLogs;
+                let simDate = new Date(); 
+                if (last.date > simDate) simDate = new Date(last.date); 
+
+                while (currentStockSim > 0 && autonomiePrevue < 365) { 
+                    const m = simDate.getMonth();
+                    const adjustedRate = dailyBurnRateByMonth[m] * severityRatio;
+                    currentStockSim -= adjustedRate;
+                    if (currentStockSim >= 0) autonomiePrevue++;
+                    simDate.setDate(simDate.getDate() + 1); 
+                }
+                
+                if (last.date > dateEpuisement) dateEpuisement = new Date(last.date);
+                dateEpuisement.setDate(dateEpuisement.getDate() + autonomiePrevue);
+            }
+
+            const textElement = document.getElementById('kpi-autonomie-texte');
+            textElement.className = "text-xs font-medium mt-1 text-tp-c10/80";
+
+            if (state.stockLogs <= 0) {
+                textElement.textContent = `Stock vide`;
+                textElement.classList.replace('text-tp-c10/80', 'text-tp-c7');
+            } else if (autonomiePrevue <= 14) {
+                const dateExacte = dateEpuisement.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+                textElement.textContent = `Jusqu'au ${dateExacte}`;
+            } else if (autonomiePrevue < 365) {
+                const moisEpuisement = dateEpuisement.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+                textElement.textContent = `Jusqu'en ${moisEpuisement}`;
+            } else {
+                textElement.textContent = `Couvre l'éternité (L'été)`;
+            }
+
+            document.getElementById('kpi-autonomie').textContent = autonomiePrevue >= 365 ? "> 365" : autonomiePrevue;
+
+            document.getElementById('entry-count').textContent = state.data.length;
+
+            tb.innerHTML = '';
+            [...state.data].reverse().slice(0, 100).forEach(d => {
+                tb.insertAdjacentHTML('beforeend', `
+                    <tr class="border-b border-tp-c3 last:border-0 hover:bg-tp-c3/50 transition-colors">
+                        <td class="p-3 text-sm font-bold capitalize text-tp-c10">${d.date.toLocaleDateString('fr-FR', {weekday:'short', day:'2-digit', month:'short'})}<br><span class="text-tp-c9 font-medium text-[10px]">${d.date.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'})}</span></td>
+                        <td class="p-3 text-right font-black text-tp-c8 text-xl">+${d.logs}</td>
+                        <td class="p-3 w-10 text-center align-middle">
+                            <button onclick="deleteEntry(${d.ts})" class="text-tp-c6 hover:text-tp-c7 font-bold text-2xl active:scale-90 transition-transform">×</button>
+                        </td>
+                    </tr>
+                `);
+            });
+
+            if (state.currentTab === 'analytics') updateAnalytics();
+        }
+
+        function updateAnalytics() {
+            const gY = document.getElementById('year-grid-mobile');
+            if (state.data.length === 0) {
+                gY.innerHTML = '<p class="text-sm text-tp-c5 col-span-2 text-center py-4 opacity-80">Aucune donnée</p>';
+                return;
+            }
+
+            const ym = {}; const minD = state.data[0].date; const maxD = state.data[state.data.length - 1].date;
+            state.data.forEach(d => { const y = d.date.getFullYear(); ym[y] = (ym[y]||0) + d.logs; });
+            
+            gY.innerHTML = '';
+            Object.keys(ym).sort((a,b) => b-a).forEach(y => {
+                gY.insertAdjacentHTML('beforeend', `
+                    <div class="bg-tp-c1/60 p-3 rounded-xl border border-tp-c4 flex flex-col justify-center items-center">
+                        <span class="text-[10px] font-bold text-tp-c9 block uppercase tracking-widest mb-1">${y}</span>
+                        <span class="font-black text-tp-c8 text-xl">${ym[y]} <small class="text-[10px] font-normal text-tp-c10/70">bûches</small></span>
+                    </div>
+                `);
+            });
+
+            const compareSelect = document.getElementById('pace-compare-select');
+            const currentSelection = compareSelect.value;
+            compareSelect.innerHTML = '<option value="none">Comparer avec...</option>';
+            const availableYears = Object.keys(ym).sort((a,b) => b-a);
+            const curY = maxD.getFullYear().toString();
+            
+            availableYears.forEach(y => {
+                if (y !== curY) { 
+                    compareSelect.insertAdjacentHTML('beforeend', `<option value="${y}">Année ${y}</option>`);
+                }
+            });
+            if (availableYears.includes(currentSelection) && currentSelection !== curY) {
+                compareSelect.value = currentSelection;
+            }
+
+            let maxYS = 0, maxY = "----", minYS = Infinity, minY = "----";
+            const firstY = minD.getFullYear().toString();
+            const isFirstP = minD.getMonth() > 0;
+
+            for (const [y, s] of Object.entries(ym)) {
+                if (s > maxYS) { maxYS = s; maxY = y; }
+                let elig = true;
+                if (y === curY || (y === firstY && isFirstP) || s === 0) elig = false;
+                if (elig && s < minYS) { minYS = s; minY = y; }
+            }
+            document.getElementById('ext-max-year').textContent = maxY;
+            document.getElementById('ext-max-year-val').textContent = `${maxYS} bûches`;
+            document.getElementById('ext-min-year').textContent = minYS === Infinity ? "N/A" : minY;
+            document.getElementById('ext-min-year-val').textContent = minYS === Infinity ? "Insuffisant" : `${minYS} bûches`;
+
+            const monthMap = {};
+            state.data.forEach(d => { const k = `${d.date.getFullYear()}-${d.date.getMonth()}`; monthMap[k] = (monthMap[k]||0) + d.logs; });
+            let maxMS = 0, maxM = "";
+            for(const [k, s] of Object.entries(monthMap)) { if(s > maxMS) { maxMS = s; maxM = k; } }
+            if(maxM) { 
+                const p = maxM.split('-'); 
+                document.getElementById('ext-max-month').textContent = `${MONTHS_FULL[p[1]]} ${p[0]}`; 
+                document.getElementById('ext-max-month-val').textContent = `${maxMS} bûches`; 
+            }
+
+            renderCharts();
+        }
+
+        window.toggleY = function(yStr, index) {
+            if(state.charts.yoy) {
+                if (state.hiddenYears.has(yStr)) state.hiddenYears.delete(yStr);
+                else state.hiddenYears.add(yStr);
+                state.charts.yoy.setDatasetVisibility(index, !state.hiddenYears.has(yStr));
+                state.charts.yoy.update();
+            }
+            if(state.charts.mom) {
+                state.charts.mom.setDatasetVisibility(index, !state.hiddenYears.has(yStr));
+                state.charts.mom.update();
+            }
+        }
+
+        window.updatePaceChart = function() {
+            if (state.data.length === 0) return;
+
+            const minYear = state.data[0].date.getFullYear();
+            const maxYear = state.data[state.data.length - 1].date.getFullYear();
+            const minMonth = state.data[0].date.getMonth();
+            const maxMonth = state.data[state.data.length - 1].date.getMonth();
+
+            const monthActiveYearsCount = Array(12).fill(0);
+            for(let y = minYear; y <= maxYear; y++) {
+                for(let m = 0; m < 12; m++) {
+                    if (y === minYear && m < minMonth) continue;
+                    if (y === maxYear && m > maxMonth) continue; 
+                    monthActiveYearsCount[m]++;
+                }
+            }
+
+            const sumMonthly = Array(12).fill(0); 
+            state.data.forEach(d => { sumMonthly[d.date.getMonth()] += d.logs; });
+
+            const avgMonthly = Array(12).fill(0);
+            for(let m = 0; m < 12; m++) {
+                if (monthActiveYearsCount[m] > 0) {
+                    avgMonthly[m] = sumMonthly[m] / monthActiveYearsCount[m];
+                }
+            }
+            
+            let rA = 0; 
+            const avgCum = avgMonthly.map(v => { rA+=v; return parseFloat(rA.toFixed(0)); }); 
+            
+            const cy = maxYear; 
+            const cm = state.data[state.data.length-1].date.getMonth(); 
+            
+            let rC = 0; const curCum = []; 
+            for(let i=0; i<=cm; i++) { 
+                rC += state.data.filter(d=>d.date.getFullYear()===cy && d.date.getMonth()===i).reduce((s,d)=>s+d.logs,0); 
+                curCum.push(rC); 
+            }
+
+            const ytdCurrent = curCum[curCum.length - 1] || 0;
+            const ytdAverage = avgCum[cm] || 0;
+            document.getElementById('pace-ytd-summary').innerHTML = `Depuis janvier : <span class="text-tp-c8 font-black text-sm">${ytdCurrent} bûches</span> <span class="text-[10px] text-tp-c10/70 font-bold uppercase ml-1 tracking-wide">(Moyenne: ${ytdAverage})</span>`;
+
+            const datasets = [
+                { label:`En cours (${cy})`, data:curCum, borderColor:'#ab1418', fill:true, backgroundColor:'rgba(171,20,24,0.15)', tension:0.3, borderWidth:3 }, 
+                { label:'Moyenne Hist.', data:avgCum, borderColor:'#d09e8f', borderDash:[5,5], tension:0.3, pointRadius:0, borderWidth:2 }
+            ];
+
+            const compareSelect = document.getElementById('pace-compare-select');
+            const compYear = compareSelect ? compareSelect.value : 'none';
+            
+            if (compYear !== 'none') {
+                const compYearInt = parseInt(compYear);
+                let rComp = 0; const compCum = [];
+                for(let i=0; i<12; i++) {
+                    rComp += state.data.filter(d=>d.date.getFullYear()===compYearInt && d.date.getMonth()===i).reduce((s,d)=>s+d.logs,0);
+                    compCum.push(rComp);
+                }
+                datasets.push({
+                    label:`Comp. (${compYear})`, data:compCum, borderColor:'#fcd34d',
+                    fill:false, tension:0.3, borderWidth:2, pointRadius:2
+                });
+            }
+
+            const ctxP = document.getElementById('chart-pace-mobile').getContext('2d');
+            if(state.charts.pace) state.charts.pace.destroy();
+            state.charts.pace = new Chart(ctxP, {
+                type: 'line',
+                data: { labels: MONTHS, datasets: datasets }, 
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { legend: { position: 'top', labels: { boxWidth: 10, font: { size: 10 }, color: '#d09e8f' } } }, 
+                    scales: { 
+                        x: { grid: { display: false }, ticks: { color: '#d09e8f', font: { size: 10 } } },
+                        y: { ticks: { color: '#d09e8f', font: { size: 10 } }, grid: { color: 'rgba(91, 8, 8, 0.5)' } }
+                    } 
+                }
+            });
+        }
+
+        function renderCharts() {
+            if (state.data.length === 0) return;
+
+            // -- CHART HISTORIQUE --
+            const mm = new Map();
+            const minDate = state.data[0].date;
+            const maxDate = state.data[state.data.length - 1].date;
+            let cY = minDate.getFullYear(), cM = minDate.getMonth();
+            
+            while(cY < maxDate.getFullYear() || (cY === maxDate.getFullYear() && cM <= maxDate.getMonth())) {
+                const k = `${cY}-${String(cM).padStart(2,'0')}`;
+                mm.set(k, { label: `${MONTHS[cM]} ${cY}`, total: 0 });
+                cM++; if(cM>11){cM=0; cY++;}
+            }
+            state.data.forEach(d => {
+                const k = `${d.date.getFullYear()}-${String(d.date.getMonth()).padStart(2,'0')}`;
+                if(mm.has(k)) mm.get(k).total += d.logs;
+            });
+            const hData = Array.from(mm.values());
+
+            const ctxH = document.getElementById('chart-hist-mobile').getContext('2d');
+            if(state.charts.history) state.charts.history.destroy();
+            state.charts.history = new Chart(ctxH, {
+                type: 'line',
+                data: { labels: hData.map(d => d.label), datasets: [{ data: hData.map(d => d.total), borderColor: '#fcd34d', backgroundColor: 'rgba(252,211,77,0.1)', fill: true, tension: 0.3, pointRadius: 2 }] },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { legend: { display: false } }, 
+                    layout: { padding: { top: 20, left: 10, right: 10 } },
+                    scales: { 
+                        x: { grid: { display: false }, ticks: { color: '#d09e8f', font: { size: 10 } } }, 
+                        y: { ticks: { color: '#d09e8f', font: { size: 10 } }, grid: { color: 'rgba(91, 8, 8, 0.5)' } } 
+                    } 
+                },
+                plugins: [janLinesPlugin]
+            });
+
+            // -- PRÉPARATION DONNÉES YoY & MoM --
+            const dataY = {}; 
+            state.data.forEach(d => { 
+                const y = d.date.getFullYear().toString(); 
+                if(!dataY[y]) dataY[y] = Array(12).fill(0); 
+                dataY[y][d.date.getMonth()] += d.logs; 
+            });
+            
+            const fil = document.getElementById('filter-yoy'); fil.innerHTML = '';
+            const dsYoY = Object.keys(dataY).sort().map((y, i) => {
+                const c = COLORS[i % COLORS.length]; 
+                const isChecked = !state.hiddenYears.has(y);
+                
+                fil.insertAdjacentHTML('beforeend', `
+                    <label class="cursor-pointer year-toggle inline-block mb-2 mr-2 btn-press" style="--brand-color: ${c};">
+                        <input type="checkbox" class="sr-only" ${isChecked ? 'checked' : ''} onchange="window.toggleY('${y}',${i})">
+                        <div class="filter-btn px-2.5 py-1 rounded-lg border-2 text-[10px] font-black transition-all flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full dot"></span>
+                            ${y}
+                        </div>
+                    </label>
+                `);
+                
+                return { label: y, data: dataY[y], borderColor: c, backgroundColor: c, tension: 0.4, hidden: !isChecked, borderWidth: 2, pointRadius: 2 };
+            });
+
+            // -- CHART YoY (Comparaison Linéaire) --
+            const ctxY = document.getElementById('chart-yoy-mobile').getContext('2d');
+            if(state.charts.yoy) state.charts.yoy.destroy();
+            state.charts.yoy = new Chart(ctxY, {
+                type: 'line',
+                data: { labels: MONTHS, datasets: dsYoY },
+                options: { 
+                    responsive: true, maintainAspectRatio: false, 
+                    plugins: { legend: { display: false } }, 
+                    scales: { 
+                        x: { grid: { display: false }, ticks: { color: '#d09e8f', font: { size: 10 } } },
+                        y: { ticks: { color: '#d09e8f', font: { size: 10 } }, grid: { color: 'rgba(91, 8, 8, 0.5)' } }
+                    } 
+                }
+            });
+
+            // -- CHART MoM (Comparaison Mensuelle Barres) --
+            const ctxMom = document.getElementById('chart-mom-mobile').getContext('2d');
+            if(state.charts.mom) state.charts.mom.destroy();
+            state.charts.mom = new Chart(ctxMom, {
+                type: 'bar',
+                data: { labels: MONTHS, datasets: dsYoY },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: '#d09e8f', font: { size: 10 } } },
+                        y: { ticks: { color: '#d09e8f', font: { size: 10 } }, grid: { color: 'rgba(91, 8, 8, 0.5)' } }
+                    }
+                }
+            });
+
+            window.updatePaceChart();
+        }
+
+        function setTab(t) {
+            state.currentTab = t;
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('tab-' + t).classList.add('active');
+            document.getElementById('nav-' + t).classList.add('active');
+            updateUI();
+        }
+
+        function exportCSV() {
+            if(state.data.length === 0) { CustomModal.alert("Export", "Le journal est vide. Rien à exporter."); return; }
+            
+            let csv = "Date;Buches;Stock_Logs;Ratio_Buches_Stere;LastDelivTs;LastDelivSteres;Consumed\n";
+            
+            state.data.forEach((d, index) => {
+                const dt = d.date;
+                const dateStr = `${dt.getFullYear()}-${(dt.getMonth()+1).toString().padStart(2,'0')}-${dt.getDate().toString().padStart(2,'0')} ${dt.getHours().toString().padStart(2,'0')}:${dt.getMinutes().toString().padStart(2,'0')}`;
+                
+                const stockStr = (index === 0) ? state.stockLogs : "";
+                const ratioStr = (index === 0) ? state.logsPerStere : "";
+                const ldTsStr = (index === 0 && state.lastDeliveryTs) ? state.lastDeliveryTs : "";
+                const ldSteresStr = (index === 0 && state.lastDeliverySteres) ? state.lastDeliverySteres : "";
+                const consumedStr = (index === 0) ? state.consumedSinceLastDelivery : "";
+                
+                csv += `${dateStr};${d.logs};${stockStr};${ratioStr};${ldTsStr};${ldSteresStr};${consumedStr}\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'The_Log_Lady_Export.csv'; a.click();
+        }
+
+        function handleImport(input) {
+            const f = input.files[0]; if(!f) return;
+            const r = new FileReader();
+            r.onload = async e => {
+                const text = e.target.result;
+                const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').filter(l => l.trim().length > 0);
+                const parsed = [];
+                let restoredSettings = null;
+
+                lines.forEach((l, index) => {
+                    if (index === 0 && l.toLowerCase().includes('date')) return; 
+                    const cols = l.split(/[,;\t]/).map(c => c.replace(/"/g, ''));
+                    if (cols.length >= 2) {
+                        const rd = cols[0], rq = cols[1];
+                        const val = parseInt(rq.replace(/[^0-9.-]/g, ''));
+                        
+                        let dobj = new Date(rd);
+                        if(isNaN(dobj.getTime())) {
+                            if (rd.includes('/')) {
+                                const parts = rd.split(' ');
+                                const dParts = parts[0].split('/');
+                                const time = parts[1] || '00:00';
+                                if(dParts.length === 3) dobj = new Date(`${dParts[2]}-${dParts[1]}-${dParts[0]}T${time}`);
+                            }
+                        }
+
+                        if (!isNaN(dobj.getTime()) && !isNaN(val) && val > 0) {
+                            parsed.push({ date: dobj, ts: dobj.getTime(), logs: val });
+                        }
+                        
+                        if (index === 1 && cols.length >= 7 && cols[2]) {
+                            restoredSettings = {
+                                stock: parseInt(cols[2]) || 0,
+                                ratio: parseInt(cols[3]) || 150,
+                                lastTs: parseInt(cols[4]) || null,
+                                lastSteres: parseFloat(cols[5]) || null,
+                                consumed: parseInt(cols[6]) || 0
+                            };
+                        }
+                    }
+                });
+
+                if(parsed.length > 0) { 
+                    state.data = parsed.sort((a,b) => a.ts - b.ts); 
+                    
+                    if (restoredSettings) {
+                        state.stockLogs = restoredSettings.stock;
+                        state.logsPerStere = restoredSettings.ratio;
+                        state.lastDeliveryTs = restoredSettings.lastTs;
+                        state.lastDeliverySteres = restoredSettings.lastSteres;
+                        state.consumedSinceLastDelivery = restoredSettings.consumed;
+                    }
+                    
+                    save(); updateUI(); 
+                    await CustomModal.alert("Vision retrouvée", `<b class="text-white">${parsed.length} pages</b> du journal ont été restaurées.`);
+                } else {
+                    await CustomModal.alert("Erreur", "La bûche ne comprend pas ce langage.");
+                }
+                input.value = '';
+            };
+            r.readAsText(f);
+        }
+
+        init();
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- Look App Native iPhone -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="The Log Lady">
     <link rel="apple-touch-icon" href="logo.jpg?v=12">
 
     <title>The Log Lady</title>
