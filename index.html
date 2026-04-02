@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="The Log Lady">
-    <link rel="apple-touch-icon" href="logo2.jpg?v=20">
+    <link rel="apple-touch-icon" href="logo2.jpg?v=21">
 
     <title>The Log Lady</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -31,7 +31,7 @@
                             c8: '#b5583f',  
                             c9: '#bd786a',  
                             c10: '#d09e8f', 
-                            gold: '#e8b042' /* Nouvel Or extrait de logo2.jpg */
+                            gold: '#e8b042'
                         }
                     },
                     fontFamily: {
@@ -95,12 +95,12 @@
             align-items: center;
             font-size: 10px;
             font-weight: 600;
-            color: rgba(232, 176, 66, 0.3); /* Or tamisé */
+            color: rgba(232, 176, 66, 0.3);
             transition: all 0.2s;
             width: 25%; 
         }
         .nav-item.active { 
-            color: #e8b042; /* Nouvel Or */
+            color: #e8b042; 
             text-shadow: 0 0 8px rgba(232, 176, 66, 0.4);
         } 
         .nav-item span.icon { font-size: 22px; margin-bottom: 2px; }
@@ -168,11 +168,11 @@
     <!-- ============================================== -->
     <!-- EN-TÊTE GLOBAL                                 -->
     <!-- ============================================== -->
-    <header class="pt-2 pb-1 px-3">
+    <header class="pt-2 pb-2 px-3">
         <div class="flex justify-between items-start">
             <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(232,176,66,0.2)] shrink-0 bg-tp-c1">
-                    <img src="logo2.jpg?v=20" alt="Log Lady Logo" class="w-full h-full object-cover">
+                    <img src="logo2.jpg?v=21" alt="Log Lady Logo" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col justify-center min-w-0">
                     <h1 class="text-[20px] sm:text-2xl font-black tracking-tight text-tp-gold drop-shadow-sm uppercase leading-none" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">THE LOG LADY</h1>
@@ -187,25 +187,25 @@
         </div>
 
         <!-- CITATION ALÉATOIRE -->
-        <div class="w-full flex justify-center items-center mt-1.5 px-2">
-            <span id="random-quote" class="font-script text-tp-gold/70 text-lg transform -rotate-1 text-center leading-tight" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.9);">
+        <div class="w-full flex justify-center items-center mt-2 px-2">
+            <span id="random-quote" class="font-script text-[#f59e0b] text-base sm:text-lg transform -rotate-1 text-center leading-tight" style="text-shadow: 0 0 6px rgba(245, 158, 11, 0.5), 1px 1px 2px rgba(0,0,0,0.9);">
                 <!-- Géré par JS -->
             </span>
         </div>
     </header>
 
-    <!-- Espace global avant le contenu -->
-    <div class="mb-4">
-        <!-- FAKE LOGS DIANE (Taille 8px, Alignement à gauche) -->
-        <div id="diane-logs" class="font-mono text-[8px] text-tp-c9/60 px-1 h-3 leading-none text-left truncate" style="text-shadow: 0 0 2px rgba(189, 120, 106, 0.2);">
-            <!-- Injecté par JS -->
-        </div>
-    </div>
+    <!-- Air sous l'en-tête pour dégager le logo/titre/citation -->
+    <div class="h-2 sm:h-4"></div>
 
     <!-- ============================================== -->
     <!-- Onglet 1 : FOYER (Saisie)                      -->
     <!-- ============================================== -->
     <div id="tab-dashboard" class="tab-content active">
+
+        <!-- FAKE LOGS DIANE (Aligné strictement sur le bord gauche du module Foyer) -->
+        <div id="diane-logs" class="font-mono text-[8px] text-tp-c9/60 mb-1 h-5 leading-tight text-left overflow-hidden" style="text-shadow: 0 0 2px rgba(189, 120, 106, 0.2);">
+            <!-- Injecté par JS -->
+        </div>
 
         <!-- Saisie Rapide (Compteur) -->
         <div class="ios-card p-3 sm:p-4 border-tp-c5/50 shadow-[0_0_20px_rgba(115,38,18,0.2)] mt-0 mb-3">
@@ -232,7 +232,7 @@
                     <button onclick="setCounter(6)" class="flex-1 py-1.5 bg-tp-c2 text-tp-c10 border border-tp-c4 text-sm font-bold rounded-lg btn-press hover:bg-tp-c3 transition-colors">Gros (6)</button>
                 </div>
 
-                <button onclick="addNewEntry()" class="w-full bg-gradient-to-r from-tp-c6 to-tp-c7 text-white py-2 px-4 rounded-xl font-bold text-sm btn-press shadow-[0_0_15px_rgba(171,20,24,0.3)] mt-0 border border-tp-c7 tracking-wide flex justify-center items-center gap-2">
+                <button onclick="addNewEntry()" class="w-full bg-gradient-to-r from-tp-c6 to-tp-c7 text-white py-2.5 px-4 rounded-xl font-bold text-sm btn-press shadow-[0_0_15px_rgba(171,20,24,0.3)] mt-0 border border-tp-c7 tracking-wide flex justify-center items-center gap-2">
                     🔥 AJOUTER AU FOYER
                 </button>
             </div>
@@ -243,12 +243,14 @@
             <div class="ios-card p-4 mb-0 flex flex-col justify-center">
                 <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">30 Jours</span>
                 <div class="text-2xl font-black mt-1 flex items-baseline gap-1">
+                    <!-- Non modifiable : tp-c8 -->
                     <span id="kpi-30d" class="text-tp-c8">0</span><small class="text-xs font-bold text-tp-c10/70">bûches</small>
                 </div>
             </div>
             <div class="ios-card p-4 mb-0 flex flex-col justify-center">
                 <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Moyenne</span>
                 <div class="text-2xl font-black mt-1 flex items-baseline gap-1">
+                    <!-- Non modifiable : tp-c8 -->
                     <span id="kpi-avg" class="text-tp-c8">0.0</span><small class="text-xs font-bold opacity-70 text-tp-c10/70">/ j</small>
                 </div>
             </div>
@@ -259,6 +261,7 @@
             <div class="flex justify-between items-start relative z-10">
                 <div>
                     <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Le message de la Bûche</span>
+                    <!-- Non modifiable : tp-c8 -->
                     <div class="text-4xl font-black mt-2 text-tp-c8 drop-shadow-md" id="kpi-autonomie">0</div>
                     <p id="kpi-autonomie-texte" class="text-tp-c10/80 text-xs font-medium mt-1">Jours restants</p>
                 </div>
@@ -266,10 +269,11 @@
                     <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Stock Estimé</span>
                     <div class="mt-1 bg-tp-c1/80 px-2.5 py-1.5 rounded-xl border border-tp-c4 flex flex-col items-end cursor-pointer active:scale-95 transition-transform shadow-inner" onclick="adjustStockManually()" title="Modifier le stock manuellement">
                         <div class="flex items-baseline gap-1">
-                            <!-- Seule la valeur du stock est blanche, car elle est modifiable -->
+                            <!-- Modifiable : Blanc -->
                             <span id="stock-buches-display" class="text-white font-black text-xl underline decoration-dashed decoration-tp-c5 underline-offset-4">0</span>
                             <span class="text-[10px] text-tp-c10/80 ml-1">✏️</span>
                         </div>
+                        <!-- Non modifiable : tp-c10 -->
                         <div class="text-[9px] text-tp-c9 mt-1 font-medium">Ratio: <span id="ratio-display" class="text-tp-c10">150</span> b./stère</div>
                     </div>
                     
@@ -313,7 +317,7 @@
             <div class="grid grid-cols-2 gap-2">
                 <div class="bg-tp-c1/60 p-3 rounded-xl border border-tp-c4">
                     <span class="text-[9px] text-tp-c10/70 uppercase font-bold block mb-1">🔥 Plus gourmande</span>
-                    <!-- Couleur unifiée tp-c10 -->
+                    <!-- Non modifiable : c10 -->
                     <div id="ext-max-year" class="text-xl font-black text-tp-c10">----</div>
                     <div id="ext-max-year-val" class="text-xs font-bold text-tp-c8 mt-1">0 bûches</div>
                 </div>
@@ -404,7 +408,7 @@
     </div>
 
     <!-- VERSION INDICATOR (Global at bottom) -->
-    <div class="version-indicator mb-6">The Log Lady v20.0</div>
+    <div class="version-indicator mb-6">The Log Lady v21.0</div>
 
     <!-- ============================================== -->
     <!-- Navigation Basse                               -->
@@ -431,12 +435,10 @@
     <script>
         const STORAGE_KEY = 'buches_app_v1';
         
-        // Palette extraite
         const COLORS = ['#d09e8f', '#ab1418', '#b5583f', '#8d0e0e', '#732612', '#5b0808', '#bd786a', '#440606', '#2d0505', '#150000'];
         const MONTHS = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
         const MONTHS_FULL = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
-        // CITATIONS EXACTES (Fichier joint)
         const CITATIONS = [
             "You can ask it now",
             "My log does not judge",
@@ -458,7 +460,6 @@
             "I carry a log – yes. Is it funny to you?"
         ];
 
-        // State global
         const state = { 
             data: [], 
             stockLogs: 0, 
@@ -554,7 +555,7 @@
             prompt: (title, message, def = '') => CustomModal.show(`✏️ ${title}`, message, 'prompt', def)
         };
 
-        // --- Fake Logs Terminal Diane (Strict 1 ligne, alignement gauche) ---
+        // --- Fake Logs Terminal Diane (Strict 2 lignes maximum) ---
         function playDianeLogs() {
             const logEl = document.getElementById('diane-logs');
             if (!logEl) return;
@@ -567,17 +568,20 @@
                 "> USER 'DIANE' LOGGED IN."
             ];
             
+            let currentLines = [];
             let delay = 0;
             
             messages.forEach((msg) => {
                 delay += 800 + Math.random() * 600; 
                 setTimeout(() => {
-                    logEl.innerHTML = msg + "<span class='animate-pulse'>_</span>";
+                    currentLines.push(msg);
+                    if (currentLines.length > 2) currentLines.shift(); // Maintient strictement 2 lignes max
+                    logEl.innerHTML = currentLines.join("<br>") + "<span class='animate-pulse'>_</span>";
                 }, delay);
             });
             
             setTimeout(() => {
-                logEl.innerHTML = messages[messages.length - 1];
+                logEl.innerHTML = currentLines.join("<br>");
             }, delay + 2000);
         }
 
