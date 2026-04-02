@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="The Log Lady">
-    <link rel="apple-touch-icon" href="logo.jpg?v=18">
+    <link rel="apple-touch-icon" href="logo2.jpg?v=19">
 
     <title>The Log Lady</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,23 +16,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
     
     <script>
-        // Extraction exacte de la palette fournie (Sans titre.jpg)
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         tp: { 
-                            c1: '#150000',  /* 1: Noir / rouge extrême */
-                            c2: '#2d0505',  /* 2: Bordeaux très sombre */
-                            c3: '#440606',  /* 3: Bordeaux */
-                            c4: '#5b0808',  /* 4: Rouge sombre */
-                            c5: '#732612',  /* 5: Marron rust / écorce */
-                            c6: '#8d0e0e',  /* 6: Crimson vif */
-                            c7: '#ab1418',  /* 7: Rouge principal */
-                            c8: '#b5583f',  /* 8: Cuivre / Feu / Terracotta */
-                            c9: '#bd786a',  /* 9: Rose poudré / brique clair */
-                            c10: '#d09e8f', /* 10: Pêche très clair */
-                            gold: '#fcd34d' /* Consolidé pour le logo/titre principal */
+                            c1: '#150000',  
+                            c2: '#2d0505',  
+                            c3: '#440606',  
+                            c4: '#5b0808',  
+                            c5: '#732612',  
+                            c6: '#8d0e0e',  
+                            c7: '#ab1418',  
+                            c8: '#b5583f',  
+                            c9: '#bd786a',  
+                            c10: '#d09e8f', 
+                            gold: '#e8b042' /* Nouvel Or extrait de logo2.jpg */
                         }
                     },
                     fontFamily: {
@@ -53,7 +52,6 @@
             overflow-x: hidden;
         }
         body { 
-            /* Fond strictement uni avec la couleur la plus sombre */
             background-color: #150000;
             color: #d09e8f; 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -97,13 +95,13 @@
             align-items: center;
             font-size: 10px;
             font-weight: 600;
-            color: rgba(252, 211, 77, 0.4); /* Or tamisé pour inactif */
+            color: rgba(232, 176, 66, 0.3); /* Or tamisé */
             transition: all 0.2s;
             width: 25%; 
         }
         .nav-item.active { 
-            color: #fcd34d; /* Or pur pour actif */
-            text-shadow: 0 0 8px rgba(252, 211, 77, 0.4);
+            color: #e8b042; /* Nouvel Or */
+            text-shadow: 0 0 8px rgba(232, 176, 66, 0.4);
         } 
         .nav-item span.icon { font-size: 22px; margin-bottom: 2px; }
         
@@ -168,13 +166,13 @@
     </div>
 
     <!-- ============================================== -->
-    <!-- EN-TÊTE GLOBAL (Visible sur tous les onglets)  -->
+    <!-- EN-TÊTE GLOBAL                                 -->
     <!-- ============================================== -->
-    <header class="pt-3 pb-4 px-3"> <!-- Espace augmenté sous l'en-tête (pb-4) -->
+    <header class="pt-2 pb-1 px-3">
         <div class="flex justify-between items-start">
             <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
-                <div class="w-12 h-12 sm:w-14 sm:h-14 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(252,211,77,0.3)] shrink-0 bg-tp-c1">
-                    <img src="logo.jpg?v=18" alt="Log Lady Logo" class="w-full h-full object-cover">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(232,176,66,0.2)] shrink-0 bg-tp-c1">
+                    <img src="logo2.jpg?v=19" alt="Log Lady Logo" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col justify-center min-w-0">
                     <h1 class="text-[20px] sm:text-2xl font-black tracking-tight text-tp-gold drop-shadow-sm uppercase leading-none" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">THE LOG LADY</h1>
@@ -187,36 +185,35 @@
                 </button>
             </div>
         </div>
+
+        <!-- CITATION ALÉATOIRE -->
+        <div class="w-full flex justify-center items-center mt-1.5 px-2">
+            <span id="random-quote" class="font-script text-tp-gold/70 text-lg transform -rotate-1 text-center leading-tight" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.9);">
+                <!-- Géré par JS -->
+            </span>
+        </div>
     </header>
 
+    <!-- Espace global avant le contenu -->
+    <div class="mb-4">
+        <!-- FAKE LOGS DIANE -->
+        <div id="diane-logs" class="font-mono text-[9px] text-tp-c9/60 px-4 h-3 leading-none text-center truncate" style="text-shadow: 0 0 2px rgba(189, 120, 106, 0.2);">
+            <!-- Injecté par JS -->
+        </div>
+    </div>
 
     <!-- ============================================== -->
     <!-- Onglet 1 : FOYER (Saisie)                      -->
     <!-- ============================================== -->
     <div id="tab-dashboard" class="tab-content active">
 
-        <!-- CITATION ALÉATOIRE -->
-        <!-- Couleur Or du titre avec transparence 60% -->
-        <div class="w-full flex justify-center items-center mt-0 mb-3 px-2">
-            <span id="random-quote" class="font-script text-tp-gold/60 text-lg sm:text-xl transform -rotate-1 text-center leading-tight" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
-                <!-- Géré par JS -->
-            </span>
-        </div>
-
-        <!-- FAKE LOGS DIANE (1 seule ligne affichée, tronquée si trop longue) -->
-        <div id="diane-logs" class="font-mono text-[10px] text-tp-c9/70 mb-3 px-4 h-4 leading-tight text-center truncate" style="text-shadow: 0 0 2px rgba(189, 120, 106, 0.2);">
-            <!-- Injecté par JS -->
-        </div>
-
         <!-- Saisie Rapide (Compteur) -->
         <div class="ios-card p-3 sm:p-4 border-tp-c5/50 shadow-[0_0_20px_rgba(115,38,18,0.2)] mt-0 mb-3">
-            <!-- Titre en couleur Or, taille et interlettrage ajustés -->
-            <h2 class="text-base font-bold text-tp-gold uppercase tracking-wide mb-3 flex items-center gap-2 border-b border-tp-c4 pb-2 drop-shadow-sm">
-                <span class="text-lg">🔥</span> FOYER
+            <h2 class="text-sm font-bold text-tp-gold uppercase tracking-wide mb-3 flex items-center gap-2 border-b border-tp-c4 pb-1.5 drop-shadow-sm">
+                <span class="text-base">🔥</span> FOYER
             </h2>
             <div class="flex flex-col gap-3">
-                <!-- Seules les données modifiables sont blanches -->
-                <input type="datetime-local" id="add-date" class="w-full bg-tp-c1 p-2.5 rounded-xl font-bold text-sm border border-tp-c4 text-white outline-none focus:border-tp-c8 transition-colors text-center" style="color-scheme: dark;">
+                <input type="datetime-local" id="add-date" class="w-full bg-tp-c1 p-2 rounded-xl font-bold text-sm border border-tp-c4 text-white outline-none focus:border-tp-c8 transition-colors text-center" style="color-scheme: dark;">
                 
                 <div class="flex items-center justify-between bg-tp-c1 rounded-xl p-2 border border-tp-c4">
                     <button onclick="adjustCounter(-1)" class="w-10 h-10 bg-tp-c2 rounded-xl shadow-sm text-2xl font-black text-tp-c8 btn-press flex items-center justify-center border border-tp-c4 hover:bg-tp-c3 transition-colors">-</button>
@@ -227,42 +224,39 @@
                     <button onclick="adjustCounter(1)" class="w-10 h-10 bg-tp-c2 rounded-xl shadow-sm text-2xl font-black text-tp-c8 btn-press flex items-center justify-center border border-tp-c4 hover:bg-tp-c3 transition-colors">+</button>
                 </div>
                 
-                <!-- Raccourcis -->
                 <div class="flex gap-2 justify-center mt-0 mb-1">
                     <button onclick="setCounter(2)" class="flex-1 py-1.5 bg-tp-c2 text-tp-c10 border border-tp-c4 text-sm font-bold rounded-lg btn-press hover:bg-tp-c3 transition-colors">Petit (2)</button>
                     <button onclick="setCounter(4)" class="flex-1 py-1.5 bg-tp-c2 text-tp-c10 border border-tp-c4 text-sm font-bold rounded-lg btn-press hover:bg-tp-c3 transition-colors">Moyen (4)</button>
                     <button onclick="setCounter(6)" class="flex-1 py-1.5 bg-tp-c2 text-tp-c10 border border-tp-c4 text-sm font-bold rounded-lg btn-press hover:bg-tp-c3 transition-colors">Gros (6)</button>
                 </div>
 
-                <!-- Bouton réduit en taille (text-sm, py-2.5) -->
-                <button onclick="addNewEntry()" class="w-full bg-gradient-to-r from-tp-c6 to-tp-c7 text-white py-2.5 px-4 rounded-xl font-bold text-sm btn-press shadow-[0_0_15px_rgba(171,20,24,0.3)] mt-0 border border-tp-c7 tracking-wide flex justify-center items-center gap-2">
+                <button onclick="addNewEntry()" class="w-full bg-gradient-to-r from-tp-c6 to-tp-c7 text-white py-2 px-4 rounded-xl font-bold text-sm btn-press shadow-[0_0_15px_rgba(171,20,24,0.3)] mt-0 border border-tp-c7 tracking-wide flex justify-center items-center gap-2">
                     🔥 AJOUTER AU FOYER
                 </button>
             </div>
         </div>
 
-        <!-- KPI Grid (Uniformité des couleurs c8) -->
+        <!-- KPI Grid -->
         <div class="grid grid-cols-2 gap-3 mb-3 w-full">
-            <div class="ios-card p-4 mb-0">
+            <div class="ios-card p-4 mb-0 flex flex-col justify-center">
                 <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">30 Jours</span>
-                <div class="text-2xl font-black mt-1 flex items-baseline gap-1 text-tp-c8">
-                    <span id="kpi-30d">0</span><small class="text-xs font-bold text-tp-c10/70">bûches</small>
+                <div class="text-2xl font-black mt-1 flex items-baseline gap-1">
+                    <span id="kpi-30d" class="text-tp-c8">0</span><small class="text-xs font-bold text-tp-c10/70">bûches</small>
                 </div>
             </div>
-            <div class="ios-card p-4 mb-0">
+            <div class="ios-card p-4 mb-0 flex flex-col justify-center">
                 <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Moyenne</span>
-                <div class="text-2xl font-black mt-1 text-tp-c8 flex items-baseline gap-1">
-                    <span id="kpi-avg">0.0</span><small class="text-xs font-bold opacity-70 text-tp-c10/70">/ j</small>
+                <div class="text-2xl font-black mt-1 flex items-baseline gap-1">
+                    <span id="kpi-avg" class="text-tp-c8">0.0</span><small class="text-xs font-bold opacity-70 text-tp-c10/70">/ j</small>
                 </div>
             </div>
         </div>
 
         <!-- Autonomie Card -->
-        <div class="ios-card p-4 sm:p-5 bg-gradient-to-br from-tp-c3 to-tp-c1 text-white relative overflow-hidden border border-tp-c5 shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
+        <div class="ios-card p-4 sm:p-5 bg-gradient-to-br from-tp-c3 to-tp-c1 relative overflow-hidden border border-tp-c5 shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
             <div class="flex justify-between items-start relative z-10">
                 <div>
                     <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Le message de la Bûche</span>
-                    <!-- Couleur c8 uniformisée avec les autres KPIs -->
                     <div class="text-4xl font-black mt-2 text-tp-c8 drop-shadow-md" id="kpi-autonomie">0</div>
                     <p id="kpi-autonomie-texte" class="text-tp-c10/80 text-xs font-medium mt-1">Jours restants</p>
                 </div>
@@ -270,7 +264,6 @@
                     <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Stock Estimé</span>
                     <div class="mt-1 bg-tp-c1/80 px-2.5 py-1.5 rounded-xl border border-tp-c4 flex flex-col items-end cursor-pointer active:scale-95 transition-transform shadow-inner" onclick="adjustStockManually()" title="Modifier le stock manuellement">
                         <div class="flex items-baseline gap-1">
-                            <!-- Seule la valeur du stock est blanche, car elle est modifiable -->
                             <span id="stock-buches-display" class="text-white font-black text-xl underline decoration-dashed decoration-tp-c5 underline-offset-4">0</span>
                             <span class="text-[10px] text-tp-c10/80 ml-1">✏️</span>
                         </div>
@@ -301,9 +294,8 @@
     <!-- ============================================== -->
     <div id="tab-analytics" class="tab-content">
         
-        <!-- Titre en couleur Or, taille ajustée -->
-        <h2 class="text-base font-bold mb-4 px-1 text-tp-gold uppercase tracking-wide border-b border-tp-c4 pb-2 drop-shadow-sm flex items-center gap-2">
-            <span class="text-lg">👁️</span> VISIONS
+        <h2 class="text-sm font-bold text-tp-gold uppercase tracking-wide mb-3 flex items-center gap-2 border-b border-tp-c4 pb-1.5 drop-shadow-sm">
+            <span class="text-base">👁️</span> VISIONS
         </h2>
 
         <!-- Bilan Annuel -->
@@ -318,7 +310,6 @@
             <div class="grid grid-cols-2 gap-2">
                 <div class="bg-tp-c1/60 p-3 rounded-xl border border-tp-c4">
                     <span class="text-[9px] text-tp-c10/70 uppercase font-bold block mb-1">🔥 Plus gourmande</span>
-                    <!-- Non modifiable, donc c10 au lieu de blanc -->
                     <div id="ext-max-year" class="text-xl font-black text-tp-c10">----</div>
                     <div id="ext-max-year-val" class="text-xs font-bold text-tp-c8 mt-1">0 bûches</div>
                 </div>
@@ -332,7 +323,7 @@
                         <span class="text-[9px] text-tp-c10/70 uppercase font-bold block mb-1">❄️ Mois Record</span>
                         <div id="ext-max-month" class="text-lg sm:text-xl font-black text-tp-c10 leading-tight capitalize truncate">----</div>
                     </div>
-                    <div id="ext-max-month-val" class="text-sm font-black text-tp-c1 bg-tp-c10 px-2 py-1 rounded-lg border border-tp-c9 shrink-0 whitespace-nowrap">0 bûches</div>
+                    <div id="ext-max-month-val" class="text-sm font-black text-tp-c8 bg-tp-c1 px-2 py-1 rounded-lg border border-tp-c9 shrink-0 whitespace-nowrap">0 bûches</div>
                 </div>
             </div>
         </div>
@@ -391,9 +382,8 @@
     <!-- ============================================== -->
     <div id="tab-history" class="tab-content">
         
-        <!-- Titre en couleur Or, taille ajustée -->
-        <h2 class="text-base font-bold mb-4 px-1 text-tp-gold uppercase tracking-wide border-b border-tp-c4 pb-2 drop-shadow-sm flex items-center gap-2">
-            <span class="text-lg">📜</span> JOURNAL
+        <h2 class="text-sm font-bold text-tp-gold uppercase tracking-wide mb-3 flex items-center gap-2 border-b border-tp-c4 pb-1.5 drop-shadow-sm">
+            <span class="text-base">📜</span> JOURNAL
         </h2>
         
         <div class="ios-card overflow-hidden">
@@ -410,7 +400,7 @@
     </div>
 
     <!-- VERSION INDICATOR (Global at bottom) -->
-    <div class="version-indicator mb-6">The Log Lady v18.0</div>
+    <div class="version-indicator mb-6">The Log Lady v19.0</div>
 
     <!-- ============================================== -->
     <!-- Navigation Basse                               -->
@@ -437,7 +427,7 @@
     <script>
         const STORAGE_KEY = 'buches_app_v1';
         
-        // Palette extraite de "Sans titre.jpg"
+        // Palette extraite
         const COLORS = ['#d09e8f', '#ab1418', '#b5583f', '#8d0e0e', '#732612', '#5b0808', '#bd786a', '#440606', '#2d0505', '#150000'];
         const MONTHS = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
         const MONTHS_FULL = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
@@ -466,7 +456,7 @@
 
         // State global
         const state = { 
-            data: [], // { ts, logs }
+            data: [], 
             stockLogs: 0, 
             logsPerStere: 150, 
             lastDeliveryTs: null,
@@ -477,7 +467,6 @@
             hiddenYears: new Set()
         };
 
-        // Plugin Chart.js pour les lignes verticales "Jan"
         const janLinesPlugin = {
             id: 'janLines',
             beforeDraw: chart => {
@@ -497,7 +486,6 @@
             }
         };
 
-        // --- GESTION DES MODALS PERSONNALISÉS ---
         const CustomModal = {
             show: function(title, message, type = 'alert', defaultValue = '') {
                 return new Promise((resolve) => {
@@ -562,7 +550,6 @@
             prompt: (title, message, def = '') => CustomModal.show(`✏️ ${title}`, message, 'prompt', def)
         };
 
-        // --- Fake Logs Terminal Diane (1 seule ligne) ---
         function playDianeLogs() {
             const logEl = document.getElementById('diane-logs');
             if (!logEl) return;
@@ -572,39 +559,34 @@
                 "> CONNECTING TO T.P. SHERIFF DEPT... [OK]",
                 "> BYPASSING FIREWALL... [WARNING: BLUE BOOK DETECTED]",
                 "> DECRYPTING AUDIO LOGS... [OK]",
-                "> USER 'DIANE' LOGGED IN. AWAITING DICTATION."
+                "> USER 'DIANE' LOGGED IN."
             ];
             
-            let currentLine = "";
             let delay = 0;
             
             messages.forEach((msg) => {
                 delay += 800 + Math.random() * 600; 
                 setTimeout(() => {
-                    currentLine = msg;
-                    logEl.innerHTML = currentLine + "<span class='animate-pulse'>_</span>";
+                    logEl.innerHTML = msg + "<span class='animate-pulse'>_</span>";
                 }, delay);
             });
             
             setTimeout(() => {
-                logEl.innerHTML = currentLine;
+                logEl.innerHTML = messages[messages.length - 1];
             }, delay + 2000);
         }
 
-        // --- Fallback pour la mémoire bloquée ---
         let memoryStorage = null;
 
         function init() {
-            // Lancer les logs
             playDianeLogs();
 
-            // Affichage d'une citation aléatoire
             const randomQuote = CITATIONS[Math.floor(Math.random() * CITATIONS.length)];
             const quoteEl = document.getElementById('random-quote');
             if (quoteEl) quoteEl.textContent = randomQuote;
 
-            Chart.defaults.color = '#d09e8f'; // c10
-            Chart.defaults.borderColor = 'rgba(91, 8, 8, 0.5)'; // c4 translucide
+            Chart.defaults.color = '#d09e8f'; 
+            Chart.defaults.borderColor = 'rgba(91, 8, 8, 0.5)'; 
 
             const now = new Date();
             const tzOffset = now.getTimezoneOffset() * 60000;
@@ -615,7 +597,7 @@
             try {
                 saved = localStorage.getItem(STORAGE_KEY);
             } catch(e) {
-                console.warn("Aperçu sécurisé : localStorage bloqué. Utilisation de la mémoire temporaire.");
+                console.warn("Aperçu sécurisé : localStorage bloqué.");
                 saved = memoryStorage ? JSON.stringify(memoryStorage) : null;
             }
 
@@ -628,7 +610,7 @@
                     state.lastDeliveryTs = p.lastDeliveryTs || null;
                     state.lastDeliverySteres = p.lastDeliverySteres || null;
                     state.consumedSinceLastDelivery = p.consumedSinceLastDelivery || 0;
-                } catch (e) { console.error("Erreur lecture state", e); }
+                } catch (e) {}
             }
             updateUI();
         }
@@ -663,7 +645,6 @@
 
         window.adjustStockManually = async function() {
             const message = `Estimez à vue d'œil le nombre de bûches restantes.\n\n<span class="text-[10px] text-tp-c10">(Rappel indicatif : 1 stère ≈ ${state.logsPerStere} bûches)</span>`;
-            
             const input = await CustomModal.prompt("Ajustement manuel", message, state.stockLogs);
             
             if (input !== false && input !== null && input !== "") {
@@ -672,8 +653,7 @@
                     state.stockLogs = parsed;
                     state.lastDeliverySteres = null; 
                     state.consumedSinceLastDelivery = 0;
-                    save();
-                    updateUI();
+                    save(); updateUI();
                 } else {
                     await CustomModal.alert("Erreur", "Valeur invalide.");
                 }
@@ -699,8 +679,7 @@
                 state.consumedSinceLastDelivery = 0; 
                 state.stockLogs += logsAdded;
                 
-                save();
-                updateUI();
+                save(); updateUI();
                 await CustomModal.alert("Livraison validée", `Basé sur la mémoire de la bûche (<b class="text-tp-c10">${state.logsPerStere}</b> bûches/stère), cela représente environ <b class="text-white">${logsAdded} bûches</b> ajoutées au stock.`);
             } else {
                 await CustomModal.alert("Erreur", "Volume invalide.");
@@ -710,10 +689,7 @@
         window.calibrateStock = async function() {
             if (!state.lastDeliverySteres || state.lastDeliverySteres === 0) {
                 await CustomModal.alert("Information", `Votre stock est désormais à zéro.\n\n<span class="text-tp-c10 text-[10px]">Le message de la bûche s'affinera automatiquement lorsque vous terminerez votre PROCHAINE livraison complète.</span>`);
-                state.stockLogs = 0;
-                save();
-                updateUI();
-                return;
+                state.stockLogs = 0; save(); updateUI(); return;
             }
 
             const msg = `Cela va analyser votre consommation depuis la dernière livraison (<b class="text-tp-c10">${state.lastDeliverySteres} stères</b>) pour révéler le secret de la bûche (le ratio exact).`;
@@ -724,20 +700,15 @@
                     await CustomModal.alert("Erreur", "La bûche est muette. Aucune consommation depuis la dernière livraison.");
                     return;
                 }
-
                 const newRatio = Math.round(state.consumedSinceLastDelivery / state.lastDeliverySteres);
-                
                 const successMsg = `Vous avez consumé <b class="text-white">${state.consumedSinceLastDelivery} bûches</b> pour <b class="text-white">${state.lastDeliverySteres} stères</b>.\n\nLe nouveau secret de la bûche est révélé : <br><span class="text-2xl font-black text-tp-c10 mt-2 block">${newRatio} bûches/stère</span>`;
                 
                 await CustomModal.alert("La bûche a parlé ! ✨", successMsg);
-
                 state.logsPerStere = newRatio;
                 state.stockLogs = 0; 
                 state.lastDeliverySteres = null; 
                 state.consumedSinceLastDelivery = 0;
-                
-                save();
-                updateUI();
+                save(); updateUI();
             }
         };
 
@@ -764,14 +735,12 @@
             const confirmed = await CustomModal.confirm("Effacer de la mémoire", "Voulez-vous vraiment oublier ce feu ?");
             if (confirmed) {
                 const deletedItem = state.data.find(d => d.ts === ts);
-                
                 if (deletedItem) {
                     state.stockLogs += deletedItem.logs;
                     if (state.lastDeliveryTs && deletedItem.ts >= state.lastDeliveryTs) {
                         state.consumedSinceLastDelivery = Math.max(0, state.consumedSinceLastDelivery - deletedItem.logs);
                     }
                 }
-
                 state.data = state.data.filter(d => d.ts !== ts);
                 save(); updateUI();
             }
@@ -807,7 +776,6 @@
             document.getElementById('kpi-30d').textContent = vol30;
             document.getElementById('kpi-avg').textContent = avg.toFixed(1);
             
-            // --- MOTEUR D'AUTONOMIE PRÉDICTIVE ---
             let autonomiePrevue = 0;
             let dateEpuisement = new Date();
             
@@ -843,11 +811,8 @@
                 const currentMonth = last.date.getMonth();
                 
                 if (dailyBurnRateByMonth[currentMonth] > 0) {
-                    if (avg > 0) {
-                        severityRatio = avg / dailyBurnRateByMonth[currentMonth];
-                    } else {
-                        severityRatio = 0.2; 
-                    }
+                    if (avg > 0) { severityRatio = avg / dailyBurnRateByMonth[currentMonth]; } 
+                    else { severityRatio = 0.2; }
                     if (severityRatio < 0.2) severityRatio = 0.2;
                     if (severityRatio > 2.0) severityRatio = 2.0;
                 }
@@ -885,7 +850,6 @@
             }
 
             document.getElementById('kpi-autonomie').textContent = autonomiePrevue >= 365 ? "> 365" : autonomiePrevue;
-
             document.getElementById('entry-count').textContent = state.data.length;
 
             tb.innerHTML = '';
@@ -1039,7 +1003,7 @@
                     compCum.push(rComp);
                 }
                 datasets.push({
-                    label:`Comp. (${compYear})`, data:compCum, borderColor:'#fcd34d',
+                    label:`Comp. (${compYear})`, data:compCum, borderColor:'#e8b042',
                     fill:false, tension:0.3, borderWidth:2, pointRadius:2
                 });
             }
@@ -1063,7 +1027,6 @@
         function renderCharts() {
             if (state.data.length === 0) return;
 
-            // -- CHART HISTORIQUE --
             const mm = new Map();
             const minDate = state.data[0].date;
             const maxDate = state.data[state.data.length - 1].date;
@@ -1084,7 +1047,7 @@
             if(state.charts.history) state.charts.history.destroy();
             state.charts.history = new Chart(ctxH, {
                 type: 'line',
-                data: { labels: hData.map(d => d.label), datasets: [{ data: hData.map(d => d.total), borderColor: '#fcd34d', backgroundColor: 'rgba(252,211,77,0.1)', fill: true, tension: 0.3, pointRadius: 2 }] },
+                data: { labels: hData.map(d => d.label), datasets: [{ data: hData.map(d => d.total), borderColor: '#e8b042', backgroundColor: 'rgba(232, 176, 66, 0.1)', fill: true, tension: 0.3, pointRadius: 2 }] },
                 options: { 
                     responsive: true, maintainAspectRatio: false, 
                     plugins: { legend: { display: false } }, 
@@ -1097,7 +1060,6 @@
                 plugins: [janLinesPlugin]
             });
 
-            // -- PRÉPARATION DONNÉES YoY & MoM --
             const dataY = {}; 
             state.data.forEach(d => { 
                 const y = d.date.getFullYear().toString(); 
@@ -1123,7 +1085,6 @@
                 return { label: y, data: dataY[y], borderColor: c, backgroundColor: c, tension: 0.4, hidden: !isChecked, borderWidth: 2, pointRadius: 2 };
             });
 
-            // -- CHART YoY (Comparaison Linéaire) --
             const ctxY = document.getElementById('chart-yoy-mobile').getContext('2d');
             if(state.charts.yoy) state.charts.yoy.destroy();
             state.charts.yoy = new Chart(ctxY, {
@@ -1139,7 +1100,6 @@
                 }
             });
 
-            // -- CHART MoM (Comparaison Mensuelle Barres) --
             const ctxMom = document.getElementById('chart-mom-mobile').getContext('2d');
             if(state.charts.mom) state.charts.mom.destroy();
             state.charts.mom = new Chart(ctxMom, {
