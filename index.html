@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="The Log Lady">
-    <link rel="apple-touch-icon" href="logo.jpg?v=10">
+    <link rel="apple-touch-icon" href="logo.jpg?v=12">
 
     <title>The Log Lady</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -100,7 +100,7 @@
         .nav-item.active { color: #fcd34d; } /* Or clair au clic */
         .nav-item span.icon { font-size: 22px; margin-bottom: 2px; }
         
-        .tab-content { display: none; padding: 16px; animation: fadeIn 0.3s ease; }
+        .tab-content { display: none; padding: 0 16px 16px 16px; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -137,7 +137,7 @@
             text-align: center;
             font-size: 10px;
             color: #451a03;
-            margin-top: 20px;
+            margin-top: 10px;
             padding-bottom: 10px;
             font-weight: bold;
         }
@@ -161,38 +161,40 @@
     </div>
 
     <!-- ============================================== -->
-    <!-- Onglet 1 : DASHBOARD (Accueil & Saisie)        -->
+    <!-- EN-TÊTE GLOBAL (Visible sur tous les onglets)  -->
+    <!-- ============================================== -->
+    <header class="pt-4 pb-4 px-4">
+        <div class="flex justify-between items-start">
+            <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                <div class="w-14 h-14 sm:w-16 sm:h-16 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(252,211,77,0.4)] shrink-0 bg-black">
+                    <img src="logo.jpg?v=12" alt="Log Lady Logo" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col justify-center min-w-0">
+                    <h1 class="text-[22px] sm:text-3xl font-black tracking-tight text-tp-gold drop-shadow-sm uppercase leading-none" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">THE LOG LADY</h1>
+                    <p class="text-amber-100/70 text-xs sm:text-sm font-medium mt-1 truncate" id="last-date-mobile">Aucune donnée</p>
+                </div>
+            </div>
+            <div class="shrink-0 mt-1 ml-2">
+                <button onclick="exportCSV()" class="bg-neutral-900/80 p-2.5 rounded-full shadow-sm text-tp-gold btn-press border border-tp-gold/20 flex items-center justify-center" title="Sauvegarder et Exporter">
+                    <span style="font-size: 1rem;">💾</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- ============================================== -->
+    <!-- Onglet 1 : FOYER (Saisie)                      -->
     <!-- ============================================== -->
     <div id="tab-dashboard" class="tab-content active">
-        
-        <header class="mb-4">
-            <div class="flex justify-between items-start px-1">
-                <!-- Flex container ajusté pour éviter le dépassement de l'écran -->
-                <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
-                    <!-- LOGO IMAGE LOG LADY -->
-                    <div class="w-14 h-14 sm:w-16 sm:h-16 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(252,211,77,0.4)] shrink-0 bg-black">
-                        <img src="logo.jpg?v=10" alt="Log Lady Logo" class="w-full h-full object-cover">
-                    </div>
-                    <div class="flex flex-col justify-center min-w-0">
-                        <h1 class="text-[22px] sm:text-3xl font-black tracking-tight text-tp-gold drop-shadow-sm uppercase leading-none" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">THE LOG LADY</h1>
-                        <p class="text-amber-100/70 text-xs sm:text-sm font-medium mt-1 truncate" id="last-date-mobile">Aucune donnée</p>
-                    </div>
-                </div>
-                <div class="shrink-0 mt-1 ml-2">
-                    <button onclick="exportCSV()" class="bg-neutral-900/80 p-2.5 rounded-full shadow-sm text-tp-gold btn-press border border-tp-gold/20 flex items-center justify-center" title="Sauvegarder et Exporter">
-                        <span style="font-size: 1rem;">💾</span>
-                    </button>
-                </div>
-            </div>
-            
-            <!-- CITATION CENTRÉE -->
-            <div class="w-full flex justify-center items-center mt-3 mb-2 px-2">
-                <span id="random-quote" class="font-script text-tp-red text-lg sm:text-xl opacity-90 transform -rotate-2 text-center leading-tight" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Fire walk with me.</span>
-            </div>
-        </header>
+
+        <!-- CITATION ALÉATOIRE -->
+        <div class="w-full flex justify-center items-center mt-2 mb-4 px-2">
+            <span id="random-quote" class="font-script text-tp-red text-xl opacity-90 transform -rotate-2 text-center leading-tight" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Fire walk with me.</span>
+        </div>
 
         <!-- Saisie Rapide (Compteur) -->
-        <div class="ios-card p-6 border-tp-red/40 shadow-[0_0_20px_rgba(153,27,27,0.2)]">
+        <div class="ios-card p-6 border-tp-red/40 shadow-[0_0_20px_rgba(153,27,27,0.2)] mt-2">
             <h3 class="text-xs font-bold text-tp-gold uppercase tracking-widest mb-4 flex items-center gap-2">
                 Nouveau feu
             </h3>
@@ -238,7 +240,7 @@
         </div>
 
         <!-- Autonomie Card -->
-        <div class="ios-card p-6 bg-gradient-to-br from-neutral-900 to-black text-white relative overflow-hidden mb-6 border border-tp-gold/30 shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
+        <div class="ios-card p-6 bg-gradient-to-br from-neutral-900 to-black text-white relative overflow-hidden border border-tp-gold/30 shadow-[0_4px_25px_rgba(0,0,0,0.8)]">
             
             <div class="flex justify-between items-start relative z-10">
                 <div>
@@ -272,17 +274,16 @@
                 </button>
             </div>
         </div>
-        
-        <div class="version-indicator">The Log Lady v10.0</div>
     </div>
 
 
     <!-- ============================================== -->
-    <!-- Onglet 2 : ANALYSES                            -->
+    <!-- Onglet 2 : VISIONS (Analyses)                  -->
     <!-- ============================================== -->
     <div id="tab-analytics" class="tab-content">
-        <h1 class="text-3xl font-extrabold mb-6 px-1 text-tp-gold drop-shadow-sm uppercase tracking-widest" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Analyses</h1>
         
+        <h2 class="text-xl font-bold mb-4 px-1 text-tp-gold/90 uppercase tracking-widest border-b border-tp-gold/20 pb-2 drop-shadow-sm">Visions</h2>
+
         <!-- Bilan Annuel -->
         <div class="ios-card p-5">
             <h3 class="text-xs font-bold text-amber-200/60 uppercase tracking-widest mb-4">Consommation par Année</h3>
@@ -350,8 +351,6 @@
                 </div>
             </div>
         </div>
-        
-        <div class="version-indicator">The Log Lady v10.0</div>
     </div>
 
 
@@ -359,7 +358,9 @@
     <!-- Onglet 3 : JOURNAL                             -->
     <!-- ============================================== -->
     <div id="tab-history" class="tab-content">
-        <h1 class="text-3xl font-extrabold mb-6 px-1 text-tp-gold drop-shadow-sm uppercase tracking-widest" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Journal</h1>
+        
+        <h2 class="text-xl font-bold mb-4 px-1 text-tp-gold/90 uppercase tracking-widest border-b border-tp-gold/20 pb-2 drop-shadow-sm">Journal</h2>
+        
         <div class="ios-card overflow-hidden">
             <div class="p-5 bg-black/60 border-b border-tp-wood flex justify-between items-center">
                 <span class="text-xs font-bold text-amber-200/60 uppercase tracking-widest">Historique des flambées</span>
@@ -371,8 +372,10 @@
                 </table>
             </div>
         </div>
-        <div class="version-indicator">The Log Lady v10.0</div>
     </div>
+
+    <!-- VERSION INDICATOR (Global at bottom) -->
+    <div class="version-indicator mb-6">The Log Lady v12.0</div>
 
     <!-- ============================================== -->
     <!-- Navigation Basse                               -->
@@ -521,7 +524,8 @@
         function init() {
             // Affichage d'une citation aléatoire
             const randomQuote = CITATIONS[Math.floor(Math.random() * CITATIONS.length)];
-            document.getElementById('random-quote').textContent = randomQuote;
+            const quoteEl = document.getElementById('random-quote');
+            if (quoteEl) quoteEl.textContent = randomQuote;
 
             Chart.defaults.color = '#fde68a'; // Amber 200
             Chart.defaults.borderColor = 'rgba(69, 26, 3, 0.5)'; // Wood 900 translucide
@@ -707,6 +711,7 @@
             document.getElementById('stock-buches-display').textContent = state.stockLogs;
             document.getElementById('ratio-display').textContent = state.logsPerStere;
 
+            // Mise à jour de la date dans le Header global
             if (state.data.length === 0) {
                 document.getElementById('last-date-mobile').textContent = "Aucun feu enregistré";
                 document.getElementById('kpi-30d').textContent = "0";
