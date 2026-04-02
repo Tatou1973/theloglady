@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="The Log Lady">
-    <link rel="apple-touch-icon" href="logo2.jpg?v=19">
+    <link rel="apple-touch-icon" href="logo2.jpg?v=20">
 
     <title>The Log Lady</title>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -172,7 +172,7 @@
         <div class="flex justify-between items-start">
             <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
                 <div class="w-12 h-12 sm:w-14 sm:h-14 relative flex items-center justify-center rounded-full overflow-hidden border-2 border-tp-gold shadow-[0_0_15px_rgba(232,176,66,0.2)] shrink-0 bg-tp-c1">
-                    <img src="logo2.jpg?v=19" alt="Log Lady Logo" class="w-full h-full object-cover">
+                    <img src="logo2.jpg?v=20" alt="Log Lady Logo" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col justify-center min-w-0">
                     <h1 class="text-[20px] sm:text-2xl font-black tracking-tight text-tp-gold drop-shadow-sm uppercase leading-none" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">THE LOG LADY</h1>
@@ -196,8 +196,8 @@
 
     <!-- Espace global avant le contenu -->
     <div class="mb-4">
-        <!-- FAKE LOGS DIANE -->
-        <div id="diane-logs" class="font-mono text-[9px] text-tp-c9/60 px-4 h-3 leading-none text-center truncate" style="text-shadow: 0 0 2px rgba(189, 120, 106, 0.2);">
+        <!-- FAKE LOGS DIANE (Taille 8px, Alignement à gauche) -->
+        <div id="diane-logs" class="font-mono text-[8px] text-tp-c9/60 px-1 h-3 leading-none text-left truncate" style="text-shadow: 0 0 2px rgba(189, 120, 106, 0.2);">
             <!-- Injecté par JS -->
         </div>
     </div>
@@ -213,11 +213,13 @@
                 <span class="text-base">🔥</span> FOYER
             </h2>
             <div class="flex flex-col gap-3">
+                <!-- Data modifiable : Blanc -->
                 <input type="datetime-local" id="add-date" class="w-full bg-tp-c1 p-2 rounded-xl font-bold text-sm border border-tp-c4 text-white outline-none focus:border-tp-c8 transition-colors text-center" style="color-scheme: dark;">
                 
                 <div class="flex items-center justify-between bg-tp-c1 rounded-xl p-2 border border-tp-c4">
                     <button onclick="adjustCounter(-1)" class="w-10 h-10 bg-tp-c2 rounded-xl shadow-sm text-2xl font-black text-tp-c8 btn-press flex items-center justify-center border border-tp-c4 hover:bg-tp-c3 transition-colors">-</button>
                     <div class="flex items-baseline justify-center gap-1.5">
+                        <!-- Data modifiable : Blanc -->
                         <input type="number" id="add-buches" value="1" min="1" class="w-12 bg-transparent text-center font-black text-3xl text-white m-0 p-0 outline-none">
                         <span class="text-sm text-tp-c9 font-bold uppercase tracking-wide">bûches</span>
                     </div>
@@ -264,6 +266,7 @@
                     <span class="text-[10px] font-bold text-tp-c9 uppercase tracking-widest">Stock Estimé</span>
                     <div class="mt-1 bg-tp-c1/80 px-2.5 py-1.5 rounded-xl border border-tp-c4 flex flex-col items-end cursor-pointer active:scale-95 transition-transform shadow-inner" onclick="adjustStockManually()" title="Modifier le stock manuellement">
                         <div class="flex items-baseline gap-1">
+                            <!-- Seule la valeur du stock est blanche, car elle est modifiable -->
                             <span id="stock-buches-display" class="text-white font-black text-xl underline decoration-dashed decoration-tp-c5 underline-offset-4">0</span>
                             <span class="text-[10px] text-tp-c10/80 ml-1">✏️</span>
                         </div>
@@ -279,10 +282,10 @@
             <!-- Zone de Calibrage -->
             <div class="relative z-10 mt-3 pt-3 border-t border-tp-c4 flex justify-between items-center gap-2">
                 <div class="text-[10px] sm:text-xs text-tp-c10 leading-snug flex-1">
-                    Tas terminé ? <br>Calculez le ratio.
+                    Stock de bois épuisé ? <br>Ajuster le rendement.
                 </div>
                 <button onclick="calibrateStock()" class="text-[11px] font-black text-white bg-tp-c8 px-3 py-1.5 rounded-lg btn-press whitespace-nowrap shadow-[0_0_15px_rgba(181,88,63,0.4)] hover:bg-tp-c7">
-                    🪫 Stock Vide
+                    🪫 Calibrer
                 </button>
             </div>
         </div>
@@ -294,7 +297,7 @@
     <!-- ============================================== -->
     <div id="tab-analytics" class="tab-content">
         
-        <h2 class="text-sm font-bold text-tp-gold uppercase tracking-wide mb-3 flex items-center gap-2 border-b border-tp-c4 pb-1.5 drop-shadow-sm">
+        <h2 class="text-sm font-bold mb-4 px-1 text-tp-gold uppercase tracking-wide border-b border-tp-c4 pb-1.5 drop-shadow-sm flex items-center gap-2">
             <span class="text-base">👁️</span> VISIONS
         </h2>
 
@@ -310,6 +313,7 @@
             <div class="grid grid-cols-2 gap-2">
                 <div class="bg-tp-c1/60 p-3 rounded-xl border border-tp-c4">
                     <span class="text-[9px] text-tp-c10/70 uppercase font-bold block mb-1">🔥 Plus gourmande</span>
+                    <!-- Couleur unifiée tp-c10 -->
                     <div id="ext-max-year" class="text-xl font-black text-tp-c10">----</div>
                     <div id="ext-max-year-val" class="text-xs font-bold text-tp-c8 mt-1">0 bûches</div>
                 </div>
@@ -382,7 +386,7 @@
     <!-- ============================================== -->
     <div id="tab-history" class="tab-content">
         
-        <h2 class="text-sm font-bold text-tp-gold uppercase tracking-wide mb-3 flex items-center gap-2 border-b border-tp-c4 pb-1.5 drop-shadow-sm">
+        <h2 class="text-sm font-bold mb-4 px-1 text-tp-gold uppercase tracking-wide border-b border-tp-c4 pb-1.5 drop-shadow-sm flex items-center gap-2">
             <span class="text-base">📜</span> JOURNAL
         </h2>
         
@@ -400,7 +404,7 @@
     </div>
 
     <!-- VERSION INDICATOR (Global at bottom) -->
-    <div class="version-indicator mb-6">The Log Lady v19.0</div>
+    <div class="version-indicator mb-6">The Log Lady v20.0</div>
 
     <!-- ============================================== -->
     <!-- Navigation Basse                               -->
@@ -432,7 +436,7 @@
         const MONTHS = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"];
         const MONTHS_FULL = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
-        // CITATIONS EXACTES
+        // CITATIONS EXACTES (Fichier joint)
         const CITATIONS = [
             "You can ask it now",
             "My log does not judge",
@@ -550,6 +554,7 @@
             prompt: (title, message, def = '') => CustomModal.show(`✏️ ${title}`, message, 'prompt', def)
         };
 
+        // --- Fake Logs Terminal Diane (Strict 1 ligne, alignement gauche) ---
         function playDianeLogs() {
             const logEl = document.getElementById('diane-logs');
             if (!logEl) return;
